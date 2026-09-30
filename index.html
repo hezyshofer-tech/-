@@ -28,41 +28,27 @@ body {
     top: 78%;
     left: 70%;
     transform: translate(-50%, -50%);
-
     font-size: 28px;
     padding: 15px 45px;
-
     cursor: pointer;
-
     border: none;
     border-radius: 10px;
-
     background: white;
 }
 
 .login-box {
     display: none;
-
     position: fixed;
-
     top: 50%;
     left: 50%;
-
     transform: translate(-50%, -50%);
-
     background: white;
-
     padding: 30px;
-
     width: 350px;
     max-width: 80%;
-
     border-radius: 15px;
-
     box-shadow: 0 0 25px #555;
-
     text-align: center;
-
     z-index: 10;
 }
 
@@ -74,36 +60,26 @@ body {
 .login-box input {
     width: 90%;
     box-sizing: border-box;
-
     padding: 14px;
     margin: 8px;
-
     font-size: 18px;
-
     border: 1px solid #ccc;
     border-radius: 8px;
 }
 
 .login-box button {
     padding: 13px 25px;
-
     font-size: 18px;
-
     margin-top: 15px;
-
     cursor: pointer;
-
     border: none;
     border-radius: 8px;
 }
 
 .quiz {
     display: none;
-
     padding: 25px;
-
     max-width: 700px;
-
     margin: auto;
 }
 
@@ -114,43 +90,28 @@ body {
 
 .quiz-image {
     width: 100%;
-
     max-height: 450px;
-
     object-fit: contain;
-
     display: block;
-
     margin: 0 auto 20px auto;
-
     border-radius: 15px;
 }
 
 .timer {
     text-align: center;
-
     font-size: 30px;
-
     font-weight: bold;
-
     background: white;
-
     padding: 12px;
-
     margin-bottom: 15px;
-
     border-radius: 12px;
-
     box-shadow: 0 2px 10px #ccc;
 }
 
 .question-box {
     background: white;
-
     padding: 25px;
-
     border-radius: 15px;
-
     box-shadow: 0 2px 10px #ccc;
 }
 
@@ -166,21 +127,13 @@ body {
 
 .option {
     width: 100%;
-
     padding: 16px;
-
     margin: 10px 0;
-
     font-size: 20px;
-
     border: 1px solid #ccc;
-
     border-radius: 10px;
-
     background: white;
-
     cursor: pointer;
-
     text-align: right;
 }
 
@@ -190,39 +143,26 @@ body {
 
 #nextButton {
     width: 100%;
-
     padding: 15px;
-
     font-size: 20px;
-
     border: none;
-
     border-radius: 10px;
-
     margin-top: 15px;
-
     cursor: pointer;
-
     background: #222;
-
     color: white;
 }
 
 #nextButton:disabled {
     opacity: 0.5;
-
     cursor: not-allowed;
 }
 
 .result {
     background: white;
-
     padding: 30px;
-
     border-radius: 15px;
-
     text-align: center;
-
     box-shadow: 0 2px 10px #ccc;
 }
 
@@ -233,25 +173,19 @@ body {
 .score {
     font-size: 30px;
     font-weight: bold;
-
     margin: 20px 0;
 }
 
 .review {
     text-align: right;
-
     margin-top: 30px;
 }
 
 .review-item {
     background: #f5f5f5;
-
     padding: 18px;
-
     margin: 15px 0;
-
     border-radius: 12px;
-
     border-right: 6px solid #777;
 }
 
@@ -265,50 +199,106 @@ body {
 
 .review-question {
     font-size: 20px;
-
     font-weight: bold;
-
     margin-bottom: 12px;
 }
 
 .correct-text {
     color: green;
-
     font-weight: bold;
 }
 
 .wrong-text {
     color: red;
-
     font-weight: bold;
 }
 
 .correct-answer {
     margin-top: 10px;
-
     color: green;
-
     font-weight: bold;
 }
 
-.restart-button {
+.main-button {
     width: 100%;
-
     padding: 15px;
-
-    margin-top: 20px;
-
+    margin-top: 15px;
     font-size: 20px;
-
-    background: #222;
-
-    color: white;
-
     border: none;
-
     border-radius: 10px;
-
     cursor: pointer;
+    background: #222;
+    color: white;
+}
+
+.leaderboard {
+    display: none;
+    padding: 25px;
+    max-width: 700px;
+    margin: auto;
+}
+
+.leaderboard-box {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px #ccc;
+}
+
+.leaderboard-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f5f5f5;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    font-size: 19px;
+}
+
+.rank {
+    font-weight: bold;
+    min-width: 45px;
+}
+
+.host-box {
+    display: none;
+    padding: 25px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.host-login {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px #ccc;
+    text-align: center;
+}
+
+.host-login input {
+    width: 90%;
+    box-sizing: border-box;
+    padding: 14px;
+    margin: 8px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.host-results {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px #ccc;
+}
+
+.host-row {
+    background: #f5f5f5;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    font-size: 18px;
 }
 
 </style>
@@ -317,13 +307,11 @@ body {
 
 <body>
 
-
 <img
     id="coverImage"
     src="cover.jpg"
     alt="وێنەی سەرەکی"
 >
-
 
 <button
     class="login-button"
@@ -333,15 +321,9 @@ body {
     چوونەژوورەوە
 </button>
 
+<div class="login-box" id="loginBox">
 
-<div
-    class="login-box"
-    id="loginBox"
->
-
-    <h2>
-        چوونەژوورەوە
-    </h2>
+    <h2>چوونەژوورەوە</h2>
 
     <input
         type="text"
@@ -358,7 +340,7 @@ body {
     <br>
 
     <button onclick="login()">
-        چوونەژوورەوە
+        دەستپێکردن
     </button>
 
     <button onclick="closeLogin()">
@@ -367,16 +349,11 @@ body {
 
 </div>
 
-
-<div
-    class="quiz"
-    id="quiz"
->
+<div class="quiz" id="quiz">
 
     <h1 class="quiz-title">
         🚦 تاقیکردنەوەی شۆفێری
     </h1>
-
 
     <img
         id="quizImage"
@@ -385,14 +362,9 @@ body {
         alt="وێنەی ناوەوە"
     >
 
-
-    <div
-        id="timer"
-        class="timer"
-    >
+    <div id="timer" class="timer">
         ⏱️ 40 چرکە
     </div>
-
 
     <div class="question-box">
 
@@ -401,9 +373,7 @@ body {
             id="questionNumber"
         ></div>
 
-
         <h2 id="questionText"></h2>
-
 
         <button
             class="option"
@@ -411,20 +381,17 @@ body {
             onclick="chooseAnswer(1)"
         ></button>
 
-
         <button
             class="option"
             id="option2"
             onclick="chooseAnswer(2)"
         ></button>
 
-
         <button
             class="option"
             id="option3"
             onclick="chooseAnswer(3)"
         ></button>
-
 
         <button
             id="nextButton"
@@ -436,19 +403,125 @@ body {
 
     </div>
 
+    <button
+        class="main-button"
+        onclick="showLeaderboard()"
+    >
+        🏆 Leaderboard
+    </button>
+
 </div>
 
+<div class="leaderboard" id="leaderboard">
+
+    <div class="leaderboard-box">
+
+        <h1 style="text-align:center;">
+            🏆 Leaderboard
+        </h1>
+
+        <div id="leaderboardList">
+            چاوەڕێ بە...
+        </div>
+
+        <button
+            class="main-button"
+            onclick="backToQuiz()"
+        >
+            ↩️ گەڕانەوە
+        </button>
+
+    </div>
+
+</div>
+
+<div class="host-box" id="hostBox">
+
+    <div class="host-login" id="hostLoginBox">
+
+        <h1>👑 Host</h1>
+
+        <p>
+            تەنیا Host دەتوانێت ژمارە مۆبایلەکان ببینێت.
+        </p>
+
+        <input
+            type="email"
+            id="hostEmail"
+            placeholder="Email"
+        >
+
+        <input
+            type="password"
+            id="hostPassword"
+            placeholder="Password"
+        >
+
+        <button
+            class="main-button"
+            onclick="hostLogin()"
+        >
+            چوونەژوورەوەی Host
+        </button>
+
+        <button
+            class="main-button"
+            onclick="hideHost()"
+        >
+            داخستن
+        </button>
+
+    </div>
+
+    <div
+        class="host-results"
+        id="hostResults"
+        style="display:none;"
+    >
+
+        <h1 style="text-align:center;">
+            👑 بەشی Host
+        </h1>
+
+        <div id="hostList">
+            چاوەڕێ بە...
+        </div>
+
+        <button
+            class="main-button"
+            onclick="hostLogout()"
+        >
+            چوونەدەرەوە
+        </button>
+
+    </div>
+
+</div>
+
+<button
+    id="hostButton"
+    onclick="showHost()"
+    style="
+        position:fixed;
+        bottom:10px;
+        left:10px;
+        opacity:0.25;
+        border:none;
+        background:transparent;
+        cursor:pointer;
+        font-size:18px;
+    "
+>
+    👑
+</button>
 
 <script>
-
 
 const SUPABASE_URL =
 "https://hqfvkkigcjehttciirfe.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_e1cjH9G8H8NLaA2t-h0_Pg_azgple4f";
-
 
 const supabaseClient =
 supabase.createClient(
@@ -456,30 +529,20 @@ supabase.createClient(
     SUPABASE_KEY
 );
 
-
 let questions = [];
-
 let currentQuestion = 0;
-
 let selectedAnswer = null;
-
 let correctAnswers = 0;
-
 let userName = "";
-
 let userPhone = "";
-
 let timeLeft = 40;
-
 let timerInterval = null;
-
-
-/*
-    ئەم لیستە وەڵامی بەکارهێنەرانی تێدا هەڵدەگرێت
-*/
-
 let userResults = [];
 
+
+/* =========================
+   LOGIN
+========================= */
 
 function openLogin() {
 
@@ -488,7 +551,6 @@ function openLogin() {
     ).style.display = "block";
 
 }
-
 
 function closeLogin() {
 
@@ -506,12 +568,10 @@ async function login() {
             "name"
         ).value.trim();
 
-
     userPhone =
         document.getElementById(
             "phone"
         ).value.trim();
-
 
     if (
         userName === "" ||
@@ -525,39 +585,35 @@ async function login() {
         return;
     }
 
-
     document.getElementById(
         "coverImage"
     ).style.display = "none";
-
 
     document.getElementById(
         "loginButton"
     ).style.display = "none";
 
-
     document.getElementById(
         "loginBox"
     ).style.display = "none";
-
 
     await startQuiz();
 
 }
 
 
-async function startQuiz() {
+/* =========================
+   START QUIZ
+========================= */
 
+async function startQuiz() {
 
     const {
         data,
         error
     } = await supabaseClient
-
         .from("questions")
-
         .select("*");
-
 
     if (error) {
 
@@ -571,7 +627,6 @@ async function startQuiz() {
         return;
     }
 
-
     if (
         !data ||
         data.length === 0
@@ -584,100 +639,81 @@ async function startQuiz() {
         return;
     }
 
-
     questions =
         data.sort(
             () => Math.random() - 0.5
         );
 
-
     currentQuestion = 0;
-
     correctAnswers = 0;
-
     userResults = [];
-
 
     document.getElementById(
         "quiz"
     ).style.display = "block";
-
 
     showQuestion();
 
 }
 
 
-function showQuestion() {
+/* =========================
+   QUESTIONS
+========================= */
 
+function showQuestion() {
 
     const q =
         questions[currentQuestion];
 
-
     selectedAnswer = null;
-
 
     document.getElementById(
         "questionNumber"
     ).innerText =
-
         "پرسیاری " +
         (currentQuestion + 1) +
         " لە " +
         questions.length;
 
-
     document.getElementById(
         "questionText"
     ).innerText =
-
         q.question || "پرسیار بەتاڵە";
-
 
     document.getElementById(
         "option1"
     ).innerText =
-
         "1 ـ " +
         (q.option1 || "بەتاڵە");
 
-
     document.getElementById(
         "option2"
     ).innerText =
-
         "2 ـ " +
         (q.option2 || "بەتاڵە");
-
 
     document.getElementById(
         "option3"
     ).innerText =
-
         "3 ـ " +
         (q.option3 || "بەتاڵە");
-
 
     document.getElementById(
         "option1"
     ).style.background = "white";
 
-
     document.getElementById(
         "option2"
     ).style.background = "white";
 
-
     document.getElementById(
         "option3"
     ).style.background = "white";
-
 
     document.getElementById(
         "nextButton"
     ).disabled = true;
-
 
     startTimer();
 
@@ -686,35 +722,26 @@ function showQuestion() {
 
 function startTimer() {
 
-
     clearInterval(timerInterval);
-
 
     timeLeft = 40;
 
-
     updateTimer();
-
 
     timerInterval = setInterval(
         function() {
 
-
             timeLeft--;
 
-
             updateTimer();
-
 
             if (
                 timeLeft <= 0
             ) {
 
-
                 clearInterval(
                     timerInterval
                 );
-
 
                 if (
                     selectedAnswer === null
@@ -724,11 +751,9 @@ function startTimer() {
 
                 }
 
-
                 nextQuestion();
 
             }
-
 
         },
         1000
@@ -739,11 +764,9 @@ function startTimer() {
 
 function updateTimer() {
 
-
     document.getElementById(
         "timer"
     ).innerText =
-
         "⏱️ " +
         timeLeft +
         " چرکە";
@@ -753,29 +776,23 @@ function updateTimer() {
 
 function chooseAnswer(number) {
 
-
     selectedAnswer = number;
-
 
     document.getElementById(
         "option1"
     ).style.background = "white";
 
-
     document.getElementById(
         "option2"
     ).style.background = "white";
-
 
     document.getElementById(
         "option3"
     ).style.background = "white";
 
-
     document.getElementById(
         "option" + number
     ).style.background = "#ddd";
-
 
     document.getElementById(
         "nextButton"
@@ -784,13 +801,9 @@ function chooseAnswer(number) {
 }
 
 
-function nextQuestion() {
+async function nextQuestion() {
 
-
-    clearInterval(
-        timerInterval
-    );
-
+    clearInterval(timerInterval);
 
     if (
         selectedAnswer === null
@@ -800,30 +813,21 @@ function nextQuestion() {
 
     }
 
-
     const q =
         questions[currentQuestion];
-
 
     const correctAnswer =
         Number(q.answer);
 
-
     const isCorrect =
         Number(selectedAnswer) ===
         correctAnswer;
-
 
     if (isCorrect) {
 
         correctAnswers++;
 
     }
-
-
-    /*
-        ئەنجامی ئەم پرسیارە هەڵدەگرین
-    */
 
     userResults.push({
 
@@ -850,53 +854,95 @@ function nextQuestion() {
 
     });
 
-
     currentQuestion++;
-
 
     if (
         currentQuestion >=
         questions.length
     ) {
 
-        finishQuiz();
+        await finishQuiz();
 
         return;
-
     }
-
 
     showQuestion();
 
 }
 
 
-function finishQuiz() {
+/* =========================
+   FINISH QUIZ
+========================= */
 
+async function finishQuiz() {
 
-    clearInterval(
-        timerInterval
-    );
-
+    clearInterval(timerInterval);
 
     const total =
         questions.length;
 
-
     const wrongAnswers =
         total - correctAnswers;
 
+    /*
+       یەکەم نمرە لە Leaderboard تۆمار دەکەین
+    */
+
+    const {
+        data: leaderboardData,
+        error: leaderboardError
+    } = await supabaseClient
+        .from("leaderboard")
+        .insert({
+            name: userName,
+            score: correctAnswers,
+            total: total
+        })
+        .select()
+        .single();
+
+    if (leaderboardError) {
+
+        console.log(
+            leaderboardError
+        );
+
+        alert(
+            "نمرەکە تۆمار نەکرا، بەڵام تاقیکردنەوەکەت تەواو بوو."
+        );
+
+    } else {
+
+        /*
+           ژمارەی مۆبایل لە خشتەی تایبەتدا تۆمار دەکەین.
+           بەشداربووان ناتوانن ئەمە بخوێننەوە.
+        */
+
+        await supabaseClient
+            .from("private_results")
+            .insert({
+
+                leaderboard_id:
+                    leaderboardData.id,
+
+                phone:
+                    userPhone
+
+            });
+
+    }
 
     let reviewHTML = "";
-
 
     userResults.forEach(
         function(result, index) {
 
-
             let selectedText =
                 "وەڵام نەدراوە";
 
+            let correctText =
+                "";
 
             if (
                 result.selectedAnswer === 1
@@ -908,7 +954,6 @@ function finishQuiz() {
 
             }
 
-
             if (
                 result.selectedAnswer === 2
             ) {
@@ -918,7 +963,6 @@ function finishQuiz() {
                     result.option2;
 
             }
-
 
             if (
                 result.selectedAnswer === 3
@@ -930,10 +974,6 @@ function finishQuiz() {
 
             }
 
-
-            let correctText = "";
-
-
             if (
                 result.correctAnswer === 1
             ) {
@@ -943,7 +983,6 @@ function finishQuiz() {
                     result.option1;
 
             }
-
 
             if (
                 result.correctAnswer === 2
@@ -955,7 +994,6 @@ function finishQuiz() {
 
             }
 
-
             if (
                 result.correctAnswer === 3
             ) {
@@ -966,11 +1004,9 @@ function finishQuiz() {
 
             }
 
-
             if (
                 result.isCorrect
             ) {
-
 
                 reviewHTML += `
 
@@ -979,7 +1015,7 @@ function finishQuiz() {
                         <div class="review-question">
 
                             ${index + 1}.
-                            ${result.question}
+                            ${escapeHTML(result.question)}
 
                         </div>
 
@@ -992,7 +1028,7 @@ function finishQuiz() {
                         <div>
 
                             وەڵامی تۆ:
-                            ${selectedText}
+                            ${escapeHTML(selectedText)}
 
                         </div>
 
@@ -1000,9 +1036,7 @@ function finishQuiz() {
 
                 `;
 
-
             } else {
-
 
                 reviewHTML += `
 
@@ -1011,7 +1045,7 @@ function finishQuiz() {
                         <div class="review-question">
 
                             ${index + 1}.
-                            ${result.question}
+                            ${escapeHTML(result.question)}
 
                         </div>
 
@@ -1024,14 +1058,14 @@ function finishQuiz() {
                         <div>
 
                             وەڵامی تۆ:
-                            ${selectedText}
+                            ${escapeHTML(selectedText)}
 
                         </div>
 
                         <div class="correct-answer">
 
                             ✅ وەڵامی ڕاست:
-                            ${correctText}
+                            ${escapeHTML(correctText)}
 
                         </div>
 
@@ -1041,10 +1075,8 @@ function finishQuiz() {
 
             }
 
-
         }
     );
-
 
     document.getElementById(
         "quiz"
@@ -1058,15 +1090,13 @@ function finishQuiz() {
 
             </h1>
 
-
             <h2>
 
                 بەخێربێیت
-                ${userName}
+                ${escapeHTML(userName)}
                 🌹
 
             </h2>
-
 
             <div class="score">
 
@@ -1077,7 +1107,6 @@ function finishQuiz() {
 
             </div>
 
-
             <p>
 
                 کۆی پرسیارەکان:
@@ -1086,7 +1115,6 @@ function finishQuiz() {
                 </strong>
 
             </p>
-
 
             <p>
 
@@ -1097,7 +1125,6 @@ function finishQuiz() {
 
             </p>
 
-
             <p>
 
                 وەڵامی هەڵە:
@@ -1107,29 +1134,29 @@ function finishQuiz() {
 
             </p>
 
-
             <div class="review">
 
                 <h2>
-
                     📋 وردەکاری وەڵامەکان
-
                 </h2>
 
                 ${reviewHTML}
 
             </div>
 
-
             <button
-                class="restart-button"
-                onclick="location.reload()"
+                class="main-button"
+                onclick="showLeaderboard()"
             >
-
-                🔄 دووبارە دەستپێکردنەوە
-
+                🏆 سەیرکردنی Leaderboard
             </button>
 
+            <button
+                class="main-button"
+                onclick="location.reload()"
+            >
+                🔄 دووبارە دەستپێکردنەوە
+            </button>
 
         </div>
 
@@ -1137,6 +1164,375 @@ function finishQuiz() {
 
 }
 
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+async function showLeaderboard() {
+
+    clearInterval(timerInterval);
+
+    document.getElementById(
+        "quiz"
+    ).style.display = "none";
+
+    document.getElementById(
+        "hostBox"
+    ).style.display = "none";
+
+    document.getElementById(
+        "leaderboard"
+    ).style.display = "block";
+
+    const list =
+        document.getElementById(
+            "leaderboardList"
+        );
+
+    list.innerHTML =
+        "<p style='text-align:center;'>چاوەڕێ بە...</p>";
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("leaderboard")
+        .select(
+            "name, score, total, created_at"
+        )
+        .order(
+            "score",
+            { ascending: false }
+        )
+        .order(
+            "created_at",
+            { ascending: true }
+        );
+
+    if (error) {
+
+        console.log(error);
+
+        list.innerHTML =
+            "<p>کێشەیەک ڕوویدا لە Leaderboard.</p>";
+
+        return;
+    }
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        list.innerHTML =
+            "<p style='text-align:center;'>هێشتا هیچ ئەنجامێک نییە.</p>";
+
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(
+        function(item, index) {
+
+            html += `
+
+                <div class="leaderboard-row">
+
+                    <div class="rank">
+
+                        #${index + 1}
+
+                    </div>
+
+                    <div style="flex:1;">
+
+                        👤
+                        ${escapeHTML(item.name)}
+
+                    </div>
+
+                    <div>
+
+                        🏆
+                        ${item.score}/${item.total}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    list.innerHTML = html;
+
+}
+
+
+function backToQuiz() {
+
+    document.getElementById(
+        "leaderboard"
+    ).style.display = "none";
+
+    document.getElementById(
+        "quiz"
+    ).style.display = "block";
+
+}
+
+
+/* =========================
+   HOST
+========================= */
+
+function showHost() {
+
+    clearInterval(timerInterval);
+
+    document.getElementById(
+        "quiz"
+    ).style.display = "none";
+
+    document.getElementById(
+        "leaderboard"
+    ).style.display = "none";
+
+    document.getElementById(
+        "hostBox"
+    ).style.display = "block";
+
+}
+
+
+function hideHost() {
+
+    document.getElementById(
+        "hostBox"
+    ).style.display = "none";
+
+}
+
+
+async function hostLogin() {
+
+    const email =
+        document.getElementById(
+            "hostEmail"
+        ).value.trim();
+
+    const password =
+        document.getElementById(
+            "hostPassword"
+        ).value;
+
+    if (
+        email === "" ||
+        password === ""
+    ) {
+
+        alert(
+            "تکایە Email و Password بنووسە."
+        );
+
+        return;
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient.auth
+        .signInWithPassword({
+            email: email,
+            password: password
+        });
+
+    if (error) {
+
+        alert(
+            "چوونەژوورەوە سەرکەوتوو نەبوو."
+        );
+
+        console.log(error);
+
+        return;
+    }
+
+    const user =
+        data.user;
+
+    const {
+        data: hostData,
+        error: hostError
+    } = await supabaseClient
+        .from("hosts")
+        .select("user_id")
+        .eq(
+            "user_id",
+            user.id
+        )
+        .maybeSingle();
+
+    if (
+        hostError ||
+        !hostData
+    ) {
+
+        await supabaseClient.auth.signOut();
+
+        alert(
+            "ئەم ئەکاونتە Host نییە."
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "hostLoginBox"
+    ).style.display = "none";
+
+    document.getElementById(
+        "hostResults"
+    ).style.display = "block";
+
+    await loadHostResults();
+
+}
+
+
+async function loadHostResults() {
+
+    const list =
+        document.getElementById(
+            "hostList"
+        );
+
+    list.innerHTML =
+        "<p>چاوەڕێ بە...</p>";
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("private_results")
+        .select(`
+            phone,
+            created_at,
+            leaderboard (
+                name,
+                score,
+                total
+            )
+        `)
+        .order(
+            "created_at",
+            { ascending: false }
+        );
+
+    if (error) {
+
+        console.log(error);
+
+        list.innerHTML =
+            "<p>کێشەیەک ڕوویدا.</p>";
+
+        return;
+    }
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        list.innerHTML =
+            "<p>هێشتا هیچ ئەنجامێک نییە.</p>";
+
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(
+        function(item, index) {
+
+            const result =
+                item.leaderboard;
+
+            html += `
+
+                <div class="host-row">
+
+                    <strong>
+                        #${index + 1}
+                    </strong>
+
+                    <br><br>
+
+                    👤 ناو:
+                    ${escapeHTML(result.name)}
+
+                    <br>
+
+                    📱 مۆبایل:
+                    ${escapeHTML(item.phone)}
+
+                    <br>
+
+                    🏆 نمرە:
+                    ${result.score}/${result.total}
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    list.innerHTML = html;
+
+}
+
+
+async function hostLogout() {
+
+    await supabaseClient.auth.signOut();
+
+    document.getElementById(
+        "hostResults"
+    ).style.display = "none";
+
+    document.getElementById(
+        "hostLoginBox"
+    ).style.display = "block";
+
+    document.getElementById(
+        "hostEmail"
+    ).value = "";
+
+    document.getElementById(
+        "hostPassword"
+    ).value = "";
+
+}
+
+
+/* =========================
+   SECURITY / TEXT
+========================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
 
 </script>
 
