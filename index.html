@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>تاقیکردنەوەی شۆفێری</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+}
+
+/* وێنەی سەرەتا */
+
+#coverImage {
+    width: 100%;
+    display: block;
+}
+
+/* دوگمەی چوونەژوورەوە */
+
+.login-button {
+    position: absolute;
+    top: 78%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+
+    font-size: 28px;
+    padding: 15px 45px;
+
+    cursor: pointer;
+
+    border: none;
+    border-radius: 10px;
+
+    background: white;
+}
+
+/* Login */
+
+.login-box {
+    display: none;
+
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: white;
+
+    padding: 30px;
+
+    width: 350px;
+    max-width: 80%;
+
+    border-radius: 15px;
+
+    box-shadow: 0 0 25px #555;
+
+    text-align: center;
+
+    z-index: 10;
+}
+
+.login-box h2 {
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+.login-box input {
+    width: 90%;
+    box-sizing: border-box;
+
+    padding: 14px;
+    margin: 8px;
+
+    font-size: 18px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.login-box button {
+    padding: 13px 25px;
+
+    font-size: 18px;
+
+    margin-top: 15px;
+
+    cursor: pointer;
+
+    border: none;
+    border-radius: 8px;
+}
+
+/* Quiz */
+
+.quiz {
+    display: none;
+
+    padding: 25px;
+
+    max-width: 700px;
+
+    margin: auto;
+}
+
+.quiz-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* وێنەی ناوەوە */
+
+.quiz-image {
+    width: 100%;
+
+    max-height: 450px;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin: 0 auto 20px auto;
+
+    border-radius: 15px;
+}
+
+/* کاتژمێر */
+
+.timer {
+    text-align: center;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    background: white;
+
+    padding: 12px;
+
+    margin-bottom: 15px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 10px #ccc;
+}
+
+/* خانەی پرسیار */
+
+.question-box {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 2px 10px #ccc;
+}
+
+.question-number {
+    font-size: 18px;
+    color: #777;
+}
+
+#questionText {
+    font-size: 25px;
+    line-height: 1.7;
+}
+
+/* هەڵبژاردەکان */
+
+.option {
+    width: 100%;
+
+    padding: 16px;
+
+    margin: 10px 0;
+
+    font-size: 20px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 10px;
+
+    background: white;
+
+    cursor: pointer;
+
+    text-align: right;
+}
+
+.option:hover {
+    background: #eee;
+}
+
+/* دوگمەی دواتر */
+
+#nextButton {
+    width: 100%;
+
+    padding: 15px;
+
+    font-size: 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    margin-top: 15px;
+
+    cursor: pointer;
+
+    background: #222;
+
+    color: white;
+}
+
+#nextButton:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+/* ئەنجام */
+
+.result {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow: 0 2px 10px #ccc;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- ========================= -->
+<!-- وێنەی سەرەتا -->
+<!-- ========================= -->
+
+<img
+    id="coverImage"
+    src="cover.jpg"
+    alt="وێنەی سەرەکی"
+>
+
+
+<!-- ========================= -->
+<!-- Login Button -->
+<!-- ========================= -->
+
+<button
+    class="login-button"
+    id="loginButton"
+    onclick="openLogin()"
+>
+    چوونەژوورەوە
+</button>
+
+
+<!-- ========================= -->
+<!-- Login Box -->
+<!-- ========================= -->
+
+<div
+    class="login-box"
+    id="loginBox"
+>
+
+    <h2>
+        چوونەژوورەوە
+    </h2>
+
+    <input
+        type="text"
+        id="name"
+        placeholder="ناوت بنووسە"
+    >
+
+    <input
+        type="tel"
+        id="phone"
+        placeholder="ژمارەی مۆبایلەکەت"
+    >
+
+    <br>
+
+    <button onclick="login()">
+        چوونەژوورەوە
+    </button>
+
+    <button onclick="closeLogin()">
+        داخستن
+    </button>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- Quiz -->
+<!-- ========================= -->
+
+<div
+    class="quiz"
+    id="quiz"
+>
+
+    <h1 class="quiz-title">
+        🚦 تاقیکردنەوەی شۆفێری
+    </h1>
+
+
+    <!-- هەمان وێنە بۆ هەموو پرسیارەکان -->
+
+    <img
+        id="quizImage"
+        class="quiz-image"
+        src="sign.jpg"
+        alt="وێنەی ناوەوە"
+    >
+
+
+    <!-- کاتژمێر -->
+
+    <div
+        id="timer"
+        class="timer"
+    >
+        ⏱️ 40 چرکە
+    </div>
+
+
+    <div class="question-box">
+
+
+        <div
+            class="question-number"
+            id="questionNumber"
+        ></div>
+
+
+        <h2 id="questionText"></h2>
+
+
+        <!-- هەڵبژاردەی 1 -->
+
+        <button
+            class="option"
+            id="option1"
+            onclick="chooseAnswer(1)"
+        ></button>
+
+
+        <!-- هەڵبژاردەی 2 -->
+
+        <button
+            class="option"
+            id="option2"
+            onclick="chooseAnswer(2)"
+        ></button>
+
+
+        <!-- هەڵبژاردەی 3 -->
+
+        <button
+            class="option"
+            id="option3"
+            onclick="chooseAnswer(3)"
+        ></button>
+
+
+        <!-- پرسیاری دواتر -->
+
+        <button
+            id="nextButton"
+            onclick="nextQuestion()"
+            disabled
+        >
+            پرسیاری دواتر
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* ================================= */
+/* Supabase */
+/* ================================= */
+
+const SUPABASE_URL =
+"https://hqfvkkigcjehttciirfe.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_e1cjH9G8H8NLaA2t-h0_Pg_azgple4f";
+
+
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* ================================= */
+/* Variables */
+/* ================================= */
+
+let questions = [];
+
+let currentQuestion = 0;
+
+let selectedAnswer = null;
+
+let correctAnswers = 0;
+
+let userName = "";
+
+let userPhone = "";
+
+
+/* ================================= */
+/* Timer */
+/* ================================= */
+
+let timeLeft = 40;
+
+let timerInterval = null;
+
+
+/* ================================= */
+/* Login */
+/* ================================= */
+
+function openLogin() {
+
+    document.getElementById(
+        "loginBox"
+    ).style.display = "block";
+}
+
+
+function closeLogin() {
+
+    document.getElementById(
+        "loginBox"
+    ).style.display = "none";
+}
+
+
+/* ================================= */
+/* Login کردن */
+/* ================================= */
+
+async function login() {
+
+    userName =
+        document.getElementById(
+            "name"
+        ).value.trim();
+
+
+    userPhone =
+        document.getElementById(
+            "phone"
+        ).value.trim();
+
+
+    if (
+        userName === "" ||
+        userPhone === ""
+    ) {
+
+        alert(
+            "تکایە ناو و ژمارەی مۆبایل بنووسە"
+        );
+
+        return;
+    }
+
+
+    /* وێنەی سەرەتا دەشاردرێتەوە */
+
+    document.getElementById(
+        "coverImage"
+    ).style.display = "none";
+
+
+    /* دوگمەی Login دەشاردرێتەوە */
+
+    document.getElementById(
+        "loginButton"
+    ).style.display = "none";
+
+
+    /* Login Box داخراوە */
+
+    document.getElementById(
+        "loginBox"
+    ).style.display = "none";
+
+
+    await startQuiz();
+}
+
+
+/* ================================= */
+/* دەستپێکردنی کویز */
+/* ================================= */
+
+async function startQuiz() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+
+        .from("questions")
+
+        .select("*");
+
+
+    if (error) {
+
+        console.log(error);
+
+        alert(
+            "کێشەیەک ڕوویدا لە وەرگرتنی پرسیارەکان.\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        alert(
+            "هیچ پرسیارێک لە Supabase نییە."
+        );
+
+        return;
+    }
+
+
+    /* تێکەڵکردنی پرسیارەکان */
+
+    questions =
+        data.sort(
+            () => Math.random() - 0.5
+        );
+
+
+    currentQuestion = 0;
+
+    correctAnswers = 0;
+
+
+    document.getElementById(
+        "quiz"
+    ).style.display = "block";
+
+
+    showQuestion();
+}
+
+
+/* ================================= */
+/* پیشاندانی پرسیار */
+/* ================================= */
+
+function showQuestion() {
+
+    const q =
+        questions[currentQuestion];
+
+
+    selectedAnswer = null;
+
+
+    /* ژمارەی پرسیار */
+
+    document.getElementById(
+        "questionNumber"
+    ).innerText =
+
+        "پرسیاری " +
+        (currentQuestion + 1) +
+        " لە " +
+        questions.length;
+
+
+    /* پرسیار */
+
+    document.getElementById(
+        "questionText"
+    ).innerText =
+
+        q.question || "پرسیار بەتاڵە";
+
+
+    /* هەڵبژاردەی 1 */
+
+    document.getElementById(
+        "option1"
+    ).innerText =
+
+        "1 ـ " +
+        (q.option1 || "بەتاڵە");
+
+
+    /* هەڵبژاردەی 2 */
+
+    document.getElementById(
+        "option2"
+    ).innerText =
+
+        "2 ـ " +
+        (q.option2 || "بەتاڵە");
+
+
+    /* هەڵبژاردەی 3 */
+
+    document.getElementById(
+        "option3"
+    ).innerText =
+
+        "3 ـ " +
+        (q.option3 || "بەتاڵە");
+
+
+    /* ڕەنگی هەڵبژاردەکان */
+
+    document.getElementById(
+        "option1"
+    ).style.background = "white";
+
+
+    document.getElementById(
+        "option2"
+    ).style.background = "white";
+
+
+    document.getElementById(
+        "option3"
+    ).style.background = "white";
+
+
+    /* دوگمەی دواتر ناچالاک */
+
+    document.getElementById(
+        "nextButton"
+    ).disabled = true;
+
+
+    /* دەستپێکردنی 40 چرکە */
+
+    startTimer();
+}
+
+
+/* ================================= */
+/* دەستپێکردنی کاتژمێر */
+/* ================================= */
+
+function startTimer() {
+
+    /* کاتژمێری پێشوو بوەستێنە */
+
+    clearInterval(timerInterval);
+
+
+    /* هەر پرسیارێک 40 چرکە */
+
+    timeLeft = 40;
+
+
+    updateTimer();
+
+
+    timerInterval = setInterval(
+        function() {
+
+            timeLeft--;
+
+            updateTimer();
+
+
+            /* کات تەواو بوو */
+
+            if (timeLeft <= 0) {
+
+                clearInterval(
+                    timerInterval
+                );
+
+
+                /* ئەگەر وەڵام نەدرا */
+                if (
+                    selectedAnswer === null
+                ) {
+
+                    selectedAnswer = 0;
+                }
+
+
+                /* بچۆ پرسیاری دواتر */
+
+                nextQuestion();
+            }
+
+        },
+        1000
+    );
+}
+
+
+/* ================================= */
+/* نوێکردنەوەی کاتژمێر */
+/* ================================= */
+
+function updateTimer() {
+
+    document.getElementById(
+        "timer"
+    ).innerText =
+
+        "⏱️ " +
+        timeLeft +
+        " چرکە";
+}
+
+
+/* ================================= */
+/* هەڵبژاردنی وەڵام */
+/* ================================= */
+
+function chooseAnswer(number) {
+
+    selectedAnswer = number;
+
+
+    /* ڕەنگی هەموو هەڵبژاردەکان */
+
+    document.getElementById(
+        "option1"
+    ).style.background = "white";
+
+
+    document.getElementById(
+        "option2"
+    ).style.background = "white";
+
+
+    document.getElementById(
+        "option3"
+    ).style.background = "white";
+
+
+    /* هەڵبژاردەی هەڵبژێردراو */
+
+    document.getElementById(
+        "option" + number
+    ).style.background = "#ddd";
+
+
+    /* دوگمەی دواتر چالاک */
+
+    document.getElementById(
+        "nextButton"
+    ).disabled = false;
+}
+
+
+/* ================================= */
+/* پرسیاری دواتر */
+/* ================================= */
+
+function nextQuestion() {
+
+    /* کاتژمێر بوەستێنە */
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    /*
+       ئەگەر بە دەستی دوگمەی دواتر
+       کرایەوە و هیچ وەڵامێک نەدرا
+    */
+
+    if (
+        selectedAnswer === null
+    ) {
+
+        selectedAnswer = 0;
+    }
+
+
+    const q =
+        questions[currentQuestion];
+
+
+    /* پشکنینی وەڵامی ڕاست */
+
+    if (
+        String(selectedAnswer) ===
+        String(q.answer)
+    ) {
+
+        correctAnswers++;
+    }
+
+
+    /* چوون بۆ پرسیاری دواتر */
+
+    currentQuestion++;
+
+
+    /* ئەگەر هەموو پرسیارەکان تەواوبوون */
+
+    if (
+        currentQuestion >=
+        questions.length
+    ) {
+
+        finishQuiz();
+
+        return;
+    }
+
+
+    /* پیشاندانی پرسیاری دواتر */
+
+    showQuestion();
+}
+
+
+/* ================================= */
+/* کۆتایی کویز */
+/* ================================= */
+
+function finishQuiz() {
+
+    /* کاتژمێر بە تەواوی بوەستێنە */
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    const total =
+        questions.length;
+
+
+    const wrongAnswers =
+        total - correctAnswers;
+
+
+    document.getElementById(
+        "quiz"
+    ).innerHTML = `
+
+        <div class="result">
+
+            <h1>
+                🎉 تاقیکردنەوەکە تەواو بوو
+            </h1>
+
+            <h2>
+                بەخێربێیت ${userName} 🌹
+            </h2>
+
+            <p>
+                کۆی پرسیارەکان:
+                <strong>${total}</strong>
+            </p>
+
+            <p>
+                وەڵامی ڕاست:
+                <strong>${correctAnswers}</strong>
+            </p>
+
+            <p>
+                وەڵامی هەڵە:
+                <strong>${wrongAnswers}</strong>
+            </p>
+
+            <h2>
+                نمرە:
+                ${correctAnswers} / ${total}
+            </h2>
+
+        </div>
+
+    `;
+}
+
+
+</script>
+
+</body>
+
+</html>
