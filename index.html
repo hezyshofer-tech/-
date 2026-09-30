@@ -18,14 +18,10 @@ body {
     background: #f5f5f5;
 }
 
-/* وێنەی سەرەتا */
-
 #coverImage {
     width: 100%;
     display: block;
 }
-
-/* دوگمەی چوونەژوورەوە */
 
 .login-button {
     position: absolute;
@@ -43,8 +39,6 @@ body {
 
     background: white;
 }
-
-/* Login */
 
 .login-box {
     display: none;
@@ -103,8 +97,6 @@ body {
     border-radius: 8px;
 }
 
-/* Quiz */
-
 .quiz {
     display: none;
 
@@ -120,8 +112,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* وێنەی ناوەوە */
-
 .quiz-image {
     width: 100%;
 
@@ -135,8 +125,6 @@ body {
 
     border-radius: 15px;
 }
-
-/* کاتژمێر */
 
 .timer {
     text-align: center;
@@ -155,8 +143,6 @@ body {
 
     box-shadow: 0 2px 10px #ccc;
 }
-
-/* خانەی پرسیار */
 
 .question-box {
     background: white;
@@ -177,8 +163,6 @@ body {
     font-size: 25px;
     line-height: 1.7;
 }
-
-/* هەڵبژاردەکان */
 
 .option {
     width: 100%;
@@ -203,8 +187,6 @@ body {
 .option:hover {
     background: #eee;
 }
-
-/* دوگمەی دواتر */
 
 #nextButton {
     width: 100%;
@@ -232,8 +214,6 @@ body {
     cursor: not-allowed;
 }
 
-/* ئەنجام */
-
 .result {
     background: white;
 
@@ -246,6 +226,91 @@ body {
     box-shadow: 0 2px 10px #ccc;
 }
 
+.result-title {
+    margin-bottom: 20px;
+}
+
+.score {
+    font-size: 30px;
+    font-weight: bold;
+
+    margin: 20px 0;
+}
+
+.review {
+    text-align: right;
+
+    margin-top: 30px;
+}
+
+.review-item {
+    background: #f5f5f5;
+
+    padding: 18px;
+
+    margin: 15px 0;
+
+    border-radius: 12px;
+
+    border-right: 6px solid #777;
+}
+
+.review-correct {
+    border-right-color: green;
+}
+
+.review-wrong {
+    border-right-color: red;
+}
+
+.review-question {
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin-bottom: 12px;
+}
+
+.correct-text {
+    color: green;
+
+    font-weight: bold;
+}
+
+.wrong-text {
+    color: red;
+
+    font-weight: bold;
+}
+
+.correct-answer {
+    margin-top: 10px;
+
+    color: green;
+
+    font-weight: bold;
+}
+
+.restart-button {
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 20px;
+
+    font-size: 20px;
+
+    background: #222;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
 </style>
 
 </head>
@@ -253,20 +318,12 @@ body {
 <body>
 
 
-<!-- ========================= -->
-<!-- وێنەی سەرەتا -->
-<!-- ========================= -->
-
 <img
     id="coverImage"
     src="cover.jpg"
     alt="وێنەی سەرەکی"
 >
 
-
-<!-- ========================= -->
-<!-- Login Button -->
-<!-- ========================= -->
 
 <button
     class="login-button"
@@ -276,10 +333,6 @@ body {
     چوونەژوورەوە
 </button>
 
-
-<!-- ========================= -->
-<!-- Login Box -->
-<!-- ========================= -->
 
 <div
     class="login-box"
@@ -315,10 +368,6 @@ body {
 </div>
 
 
-<!-- ========================= -->
-<!-- Quiz -->
-<!-- ========================= -->
-
 <div
     class="quiz"
     id="quiz"
@@ -329,8 +378,6 @@ body {
     </h1>
 
 
-    <!-- هەمان وێنە بۆ هەموو پرسیارەکان -->
-
     <img
         id="quizImage"
         class="quiz-image"
@@ -338,8 +385,6 @@ body {
         alt="وێنەی ناوەوە"
     >
 
-
-    <!-- کاتژمێر -->
 
     <div
         id="timer"
@@ -351,7 +396,6 @@ body {
 
     <div class="question-box">
 
-
         <div
             class="question-number"
             id="questionNumber"
@@ -361,16 +405,12 @@ body {
         <h2 id="questionText"></h2>
 
 
-        <!-- هەڵبژاردەی 1 -->
-
         <button
             class="option"
             id="option1"
             onclick="chooseAnswer(1)"
         ></button>
 
-
-        <!-- هەڵبژاردەی 2 -->
 
         <button
             class="option"
@@ -379,16 +419,12 @@ body {
         ></button>
 
 
-        <!-- هەڵبژاردەی 3 -->
-
         <button
             class="option"
             id="option3"
             onclick="chooseAnswer(3)"
         ></button>
 
-
-        <!-- پرسیاری دواتر -->
 
         <button
             id="nextButton"
@@ -406,12 +442,9 @@ body {
 <script>
 
 
-/* ================================= */
-/* Supabase */
-/* ================================= */
-
 const SUPABASE_URL =
 "https://hqfvkkigcjehttciirfe.supabase.co";
+
 
 const SUPABASE_KEY =
 "sb_publishable_e1cjH9G8H8NLaA2t-h0_Pg_azgple4f";
@@ -423,10 +456,6 @@ supabase.createClient(
     SUPABASE_KEY
 );
 
-
-/* ================================= */
-/* Variables */
-/* ================================= */
 
 let questions = [];
 
@@ -440,25 +469,24 @@ let userName = "";
 
 let userPhone = "";
 
-
-/* ================================= */
-/* Timer */
-/* ================================= */
-
 let timeLeft = 40;
 
 let timerInterval = null;
 
 
-/* ================================= */
-/* Login */
-/* ================================= */
+/*
+    ئەم لیستە وەڵامی بەکارهێنەرانی تێدا هەڵدەگرێت
+*/
+
+let userResults = [];
+
 
 function openLogin() {
 
     document.getElementById(
         "loginBox"
     ).style.display = "block";
+
 }
 
 
@@ -467,12 +495,9 @@ function closeLogin() {
     document.getElementById(
         "loginBox"
     ).style.display = "none";
+
 }
 
-
-/* ================================= */
-/* Login کردن */
-/* ================================= */
 
 async function login() {
 
@@ -501,21 +526,15 @@ async function login() {
     }
 
 
-    /* وێنەی سەرەتا دەشاردرێتەوە */
-
     document.getElementById(
         "coverImage"
     ).style.display = "none";
 
 
-    /* دوگمەی Login دەشاردرێتەوە */
-
     document.getElementById(
         "loginButton"
     ).style.display = "none";
 
-
-    /* Login Box داخراوە */
 
     document.getElementById(
         "loginBox"
@@ -523,14 +542,12 @@ async function login() {
 
 
     await startQuiz();
+
 }
 
 
-/* ================================= */
-/* دەستپێکردنی کویز */
-/* ================================= */
-
 async function startQuiz() {
+
 
     const {
         data,
@@ -568,8 +585,6 @@ async function startQuiz() {
     }
 
 
-    /* تێکەڵکردنی پرسیارەکان */
-
     questions =
         data.sort(
             () => Math.random() - 0.5
@@ -580,6 +595,8 @@ async function startQuiz() {
 
     correctAnswers = 0;
 
+    userResults = [];
+
 
     document.getElementById(
         "quiz"
@@ -587,14 +604,12 @@ async function startQuiz() {
 
 
     showQuestion();
+
 }
 
 
-/* ================================= */
-/* پیشاندانی پرسیار */
-/* ================================= */
-
 function showQuestion() {
+
 
     const q =
         questions[currentQuestion];
@@ -602,8 +617,6 @@ function showQuestion() {
 
     selectedAnswer = null;
 
-
-    /* ژمارەی پرسیار */
 
     document.getElementById(
         "questionNumber"
@@ -615,16 +628,12 @@ function showQuestion() {
         questions.length;
 
 
-    /* پرسیار */
-
     document.getElementById(
         "questionText"
     ).innerText =
 
         q.question || "پرسیار بەتاڵە";
 
-
-    /* هەڵبژاردەی 1 */
 
     document.getElementById(
         "option1"
@@ -634,8 +643,6 @@ function showQuestion() {
         (q.option1 || "بەتاڵە");
 
 
-    /* هەڵبژاردەی 2 */
-
     document.getElementById(
         "option2"
     ).innerText =
@@ -644,8 +651,6 @@ function showQuestion() {
         (q.option2 || "بەتاڵە");
 
 
-    /* هەڵبژاردەی 3 */
-
     document.getElementById(
         "option3"
     ).innerText =
@@ -653,8 +658,6 @@ function showQuestion() {
         "3 ـ " +
         (q.option3 || "بەتاڵە");
 
-
-    /* ڕەنگی هەڵبژاردەکان */
 
     document.getElementById(
         "option1"
@@ -671,31 +674,21 @@ function showQuestion() {
     ).style.background = "white";
 
 
-    /* دوگمەی دواتر ناچالاک */
-
     document.getElementById(
         "nextButton"
     ).disabled = true;
 
 
-    /* دەستپێکردنی 40 چرکە */
-
     startTimer();
+
 }
 
 
-/* ================================= */
-/* دەستپێکردنی کاتژمێر */
-/* ================================= */
-
 function startTimer() {
 
-    /* کاتژمێری پێشوو بوەستێنە */
 
     clearInterval(timerInterval);
 
-
-    /* هەر پرسیارێک 40 چرکە */
 
     timeLeft = 40;
 
@@ -706,45 +699,46 @@ function startTimer() {
     timerInterval = setInterval(
         function() {
 
+
             timeLeft--;
+
 
             updateTimer();
 
 
-            /* کات تەواو بوو */
+            if (
+                timeLeft <= 0
+            ) {
 
-            if (timeLeft <= 0) {
 
                 clearInterval(
                     timerInterval
                 );
 
 
-                /* ئەگەر وەڵام نەدرا */
                 if (
                     selectedAnswer === null
                 ) {
 
                     selectedAnswer = 0;
+
                 }
 
 
-                /* بچۆ پرسیاری دواتر */
-
                 nextQuestion();
+
             }
+
 
         },
         1000
     );
+
 }
 
 
-/* ================================= */
-/* نوێکردنەوەی کاتژمێر */
-/* ================================= */
-
 function updateTimer() {
+
 
     document.getElementById(
         "timer"
@@ -753,19 +747,15 @@ function updateTimer() {
         "⏱️ " +
         timeLeft +
         " چرکە";
+
 }
 
 
-/* ================================= */
-/* هەڵبژاردنی وەڵام */
-/* ================================= */
-
 function chooseAnswer(number) {
+
 
     selectedAnswer = number;
 
-
-    /* ڕەنگی هەموو هەڵبژاردەکان */
 
     document.getElementById(
         "option1"
@@ -782,44 +772,32 @@ function chooseAnswer(number) {
     ).style.background = "white";
 
 
-    /* هەڵبژاردەی هەڵبژێردراو */
-
     document.getElementById(
         "option" + number
     ).style.background = "#ddd";
 
 
-    /* دوگمەی دواتر چالاک */
-
     document.getElementById(
         "nextButton"
     ).disabled = false;
+
 }
 
 
-/* ================================= */
-/* پرسیاری دواتر */
-/* ================================= */
-
 function nextQuestion() {
 
-    /* کاتژمێر بوەستێنە */
 
     clearInterval(
         timerInterval
     );
 
 
-    /*
-       ئەگەر بە دەستی دوگمەی دواتر
-       کرایەوە و هیچ وەڵامێک نەدرا
-    */
-
     if (
         selectedAnswer === null
     ) {
 
         selectedAnswer = 0;
+
     }
 
 
@@ -827,23 +805,54 @@ function nextQuestion() {
         questions[currentQuestion];
 
 
-    /* پشکنینی وەڵامی ڕاست */
+    const correctAnswer =
+        Number(q.answer);
 
-    if (
-        String(selectedAnswer) ===
-        String(q.answer)
-    ) {
+
+    const isCorrect =
+        Number(selectedAnswer) ===
+        correctAnswer;
+
+
+    if (isCorrect) {
 
         correctAnswers++;
+
     }
 
 
-    /* چوون بۆ پرسیاری دواتر */
+    /*
+        ئەنجامی ئەم پرسیارە هەڵدەگرین
+    */
+
+    userResults.push({
+
+        question:
+            q.question || "",
+
+        selectedAnswer:
+            Number(selectedAnswer),
+
+        correctAnswer:
+            correctAnswer,
+
+        option1:
+            q.option1 || "",
+
+        option2:
+            q.option2 || "",
+
+        option3:
+            q.option3 || "",
+
+        isCorrect:
+            isCorrect
+
+    });
+
 
     currentQuestion++;
 
-
-    /* ئەگەر هەموو پرسیارەکان تەواوبوون */
 
     if (
         currentQuestion >=
@@ -853,22 +862,17 @@ function nextQuestion() {
         finishQuiz();
 
         return;
+
     }
 
 
-    /* پیشاندانی پرسیاری دواتر */
-
     showQuestion();
+
 }
 
 
-/* ================================= */
-/* کۆتایی کویز */
-/* ================================= */
-
 function finishQuiz() {
 
-    /* کاتژمێر بە تەواوی بوەستێنە */
 
     clearInterval(
         timerInterval
@@ -883,43 +887,254 @@ function finishQuiz() {
         total - correctAnswers;
 
 
+    let reviewHTML = "";
+
+
+    userResults.forEach(
+        function(result, index) {
+
+
+            let selectedText =
+                "وەڵام نەدراوە";
+
+
+            if (
+                result.selectedAnswer === 1
+            ) {
+
+                selectedText =
+                    "1 ـ " +
+                    result.option1;
+
+            }
+
+
+            if (
+                result.selectedAnswer === 2
+            ) {
+
+                selectedText =
+                    "2 ـ " +
+                    result.option2;
+
+            }
+
+
+            if (
+                result.selectedAnswer === 3
+            ) {
+
+                selectedText =
+                    "3 ـ " +
+                    result.option3;
+
+            }
+
+
+            let correctText = "";
+
+
+            if (
+                result.correctAnswer === 1
+            ) {
+
+                correctText =
+                    "1 ـ " +
+                    result.option1;
+
+            }
+
+
+            if (
+                result.correctAnswer === 2
+            ) {
+
+                correctText =
+                    "2 ـ " +
+                    result.option2;
+
+            }
+
+
+            if (
+                result.correctAnswer === 3
+            ) {
+
+                correctText =
+                    "3 ـ " +
+                    result.option3;
+
+            }
+
+
+            if (
+                result.isCorrect
+            ) {
+
+
+                reviewHTML += `
+
+                    <div class="review-item review-correct">
+
+                        <div class="review-question">
+
+                            ${index + 1}.
+                            ${result.question}
+
+                        </div>
+
+                        <div class="correct-text">
+
+                            ✅ وەڵامت ڕاستە
+
+                        </div>
+
+                        <div>
+
+                            وەڵامی تۆ:
+                            ${selectedText}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+            } else {
+
+
+                reviewHTML += `
+
+                    <div class="review-item review-wrong">
+
+                        <div class="review-question">
+
+                            ${index + 1}.
+                            ${result.question}
+
+                        </div>
+
+                        <div class="wrong-text">
+
+                            ❌ وەڵامت هەڵەیە
+
+                        </div>
+
+                        <div>
+
+                            وەڵامی تۆ:
+                            ${selectedText}
+
+                        </div>
+
+                        <div class="correct-answer">
+
+                            ✅ وەڵامی ڕاست:
+                            ${correctText}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+        }
+    );
+
+
     document.getElementById(
         "quiz"
     ).innerHTML = `
 
         <div class="result">
 
-            <h1>
+            <h1 class="result-title">
+
                 🎉 تاقیکردنەوەکە تەواو بوو
+
             </h1>
 
+
             <h2>
-                بەخێربێیت ${userName} 🌹
+
+                بەخێربێیت
+                ${userName}
+                🌹
+
             </h2>
 
-            <p>
-                کۆی پرسیارەکان:
-                <strong>${total}</strong>
-            </p>
 
-            <p>
-                وەڵامی ڕاست:
-                <strong>${correctAnswers}</strong>
-            </p>
+            <div class="score">
 
-            <p>
-                وەڵامی هەڵە:
-                <strong>${wrongAnswers}</strong>
-            </p>
-
-            <h2>
                 نمرە:
-                ${correctAnswers} / ${total}
-            </h2>
+                ${correctAnswers}
+                /
+                ${total}
+
+            </div>
+
+
+            <p>
+
+                کۆی پرسیارەکان:
+                <strong>
+                    ${total}
+                </strong>
+
+            </p>
+
+
+            <p>
+
+                وەڵامی ڕاست:
+                <strong>
+                    ${correctAnswers}
+                </strong>
+
+            </p>
+
+
+            <p>
+
+                وەڵامی هەڵە:
+                <strong>
+                    ${wrongAnswers}
+                </strong>
+
+            </p>
+
+
+            <div class="review">
+
+                <h2>
+
+                    📋 وردەکاری وەڵامەکان
+
+                </h2>
+
+                ${reviewHTML}
+
+            </div>
+
+
+            <button
+                class="restart-button"
+                onclick="location.reload()"
+            >
+
+                🔄 دووبارە دەستپێکردنەوە
+
+            </button>
+
 
         </div>
 
     `;
+
 }
 
 
