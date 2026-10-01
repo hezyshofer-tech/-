@@ -1,925 +1,1439 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>هێزی شۆفێر</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;900&display=swap');
 
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 body{
- margin:0;
- background:#03050a;
- color:#fff;
- font-family:"Noto Sans Arabic",sans-serif
+    font-family:"Noto Sans Arabic",Arial,sans-serif;
+    background:#02040a;
+    color:#fff;
+    min-height:100vh;
 }
 
-/* کەڤەری نوێ */
-.cover{
- height:100vh;
- min-height:100vh;
- background:#03050a url("68291.png") center/cover no-repeat;
- position:relative;
+button,input{
+    font-family:inherit;
 }
 
-.start{
- position:absolute;
- left:50%;
- bottom:5%;
- transform:translateX(-50%);
- width:min(430px,80vw);
- height:80px;
- border:0;
- background:transparent;
- border-radius:50px;
- cursor:pointer
+/* =========================
+   کەڤەری سەرەتا
+   ========================= */
+
+#landing{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+    background:#000;
+    z-index:1;
 }
 
-.start:hover{
- box-shadow:0 0 35px #00eaff55
+.cover-image{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    display:block;
 }
 
-.modal{
- display:none;
- position:fixed;
- inset:0;
- z-index:10;
- background:#000b;
- backdrop-filter:blur(15px);
- align-items:center;
- justify-content:center;
- padding:20px
+.cover-start{
+    position:absolute;
+    z-index:10;
+    left:50%;
+    bottom:4%;
+    transform:translateX(-50%);
+    width:min(430px,82vw);
+    height:85px;
+    border:0;
+    border-radius:60px;
+    background:transparent;
+    cursor:pointer;
 }
 
-.modal.show{display:flex}
-
-.card,.sectionbox{
- width:min(900px,94%);
- background:linear-gradient(145deg,#161d2bf5,#05080efc);
- border:1px solid #00eaff33;
- border-radius:25px;
- padding:28px;
- box-shadow:0 30px 100px #000
+/* هیچ animation نییە */
+*{
+    animation:none !important;
 }
 
-.login{width:min(450px,100%)}
+/* =========================
+   LOGIN
+   ========================= */
 
-input{
- width:100%;
- padding:15px;
- margin:7px 0;
- border-radius:14px;
- border:1px solid #ffffff18;
- background:#ffffff0b;
- color:#fff;
- font-size:16px
+#loginModal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(12px);
 }
 
-button{font-family:inherit}
-
-.primary,.secondary,.main{
- padding:14px;
- border-radius:14px;
- font-weight:900;
- font-size:16px;
- cursor:pointer
+#loginModal.show{
+    display:flex;
 }
 
-.primary{
- border:0;
- background:linear-gradient(135deg,#00eaff,#357cff);
- color:#001016
+.login-box{
+    width:min(450px,95vw);
+    padding:30px;
+    border-radius:25px;
+    background:linear-gradient(145deg,#101a2c,#05080e);
+    border:1px solid #00d9ff55;
+    box-shadow:0 0 60px #00cfff25;
 }
 
-.secondary,.main{
- border:1px solid #ffffff18;
- background:#ffffff09;
- color:#fff
+.login-box h1{
+    text-align:center;
+    color:#00eaff;
+    margin-bottom:10px;
 }
 
-.row{
- display:flex;
- gap:10px;
- margin-top:12px
+.login-box p{
+    text-align:center;
+    color:#9da9ba;
+    margin-bottom:20px;
 }
 
-.row>*{flex:1}
-
-.section{
- display:none;
- width:min(900px,94%);
- margin:auto;
- padding:25px 0
+.input{
+    width:100%;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:14px;
+    border:1px solid #ffffff25;
+    background:#ffffff0a;
+    color:#fff;
+    outline:none;
+    font-size:16px;
 }
 
-.top{
- display:flex;
- justify-content:space-between;
- gap:10px
+.input:focus{
+    border-color:#00eaff;
+}
+
+.btn{
+    width:100%;
+    padding:15px;
+    border-radius:15px;
+    border:0;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:900;
+}
+
+.btn-primary{
+    color:#001018;
+    background:linear-gradient(135deg,#00eaff,#287cff);
+}
+
+.btn-secondary{
+    color:#fff;
+    background:#ffffff0b;
+    border:1px solid #ffffff20;
+    margin-top:10px;
+}
+
+/* =========================
+   QUIZ
+   ========================= */
+
+#quiz{
+    display:none;
+    min-height:100vh;
+    padding:25px 15px;
+    background:#03060c;
+}
+
+.quiz-container{
+    width:min(900px,100%);
+    margin:auto;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:900;
+    color:#00eaff;
 }
 
 .stats{
- display:flex;
- gap:7px
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
 }
 
 .stat{
- padding:7px 11px;
- background:#ffffff09;
- border:1px solid #ffffff12;
- border-radius:12px
+    padding:7px 12px;
+    border-radius:12px;
+    background:#ffffff09;
+    border:1px solid #ffffff14;
 }
 
 .progress{
- height:7px;
- background:#ffffff10;
- border-radius:10px;
- margin:18px 0
+    width:100%;
+    height:7px;
+    border-radius:20px;
+    background:#ffffff12;
+    overflow:hidden;
+    margin-bottom:20px;
 }
 
-.bar{
- height:100%;
- width:0;
- background:linear-gradient(90deg,#00eaff,#8b5cf6);
- border-radius:10px
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#00eaff,#247cff);
 }
 
 .timer{
- text-align:center;
- color:#00eaff;
- font-size:19px;
- font-weight:900;
- margin:15px
+    text-align:center;
+    color:#00eaff;
+    font-size:20px;
+    font-weight:900;
+    margin-bottom:15px;
+}
+
+.question-box{
+    padding:25px;
+    border-radius:25px;
+    background:linear-gradient(145deg,#111a29,#06090f);
+    border:1px solid #ffffff12;
+}
+
+.question-number{
+    color:#8e9aab;
+    margin-bottom:8px;
 }
 
 .question{
- background:#ffffff08;
- border:1px solid #ffffff12;
- border-radius:22px;
- padding:25px
+    font-size:23px;
+    line-height:1.8;
+    margin-bottom:20px;
 }
 
 .option{
- width:100%;
- margin:8px 0;
- padding:16px;
- text-align:right;
- border:1px solid #ffffff12;
- background:#ffffff08;
- color:#fff;
- border-radius:14px;
- font-size:16px;
- cursor:pointer
+    display:block;
+    width:100%;
+    text-align:right;
+    padding:15px;
+    margin:9px 0;
+    border-radius:15px;
+    border:1px solid #ffffff16;
+    background:#ffffff08;
+    color:#fff;
+    cursor:pointer;
+    font-size:16px;
 }
 
-.option.sel{
- border-color:#00eaff;
- background:#00eaff18
+.option.selected{
+    border-color:#00eaff;
+    background:#00eaff15;
 }
 
-.next{
- width:100%;
- padding:15px;
- border:0;
- border-radius:14px;
- font-weight:900;
- margin-top:10px
+.next-btn{
+    width:100%;
+    padding:15px;
+    margin-top:10px;
+    border:0;
+    border-radius:15px;
+    background:linear-gradient(135deg,#00eaff,#247cff);
+    color:#001018;
+    font-weight:900;
+    cursor:pointer;
 }
 
-.next:disabled{opacity:.3}
+.next-btn:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+}
 
-.center{text-align:center}
+/* =========================
+   RESULT
+   ========================= */
 
-.muted{color:#8c98aa}
+#result{
+    display:none;
+    min-height:100vh;
+    padding:25px 15px;
+    background:#03060c;
+}
+
+.result-box{
+    width:min(900px,100%);
+    margin:auto;
+    padding:30px;
+    border-radius:25px;
+    background:linear-gradient(145deg,#111a29,#06090f);
+    border:1px solid #ffffff12;
+    text-align:center;
+}
 
 .score{
- text-align:center;
- font-size:48px;
- font-weight:900;
- color:#00eaff
+    font-size:60px;
+    color:#00eaff;
+    font-weight:900;
+    margin:20px 0;
 }
 
-.rowlb{
- display:flex;
- gap:12px;
- padding:14px;
- margin:8px 0;
- border-radius:14px;
- background:#ffffff08
+/* =========================
+   LEADERBOARD
+   ========================= */
+
+#leaderboard{
+    display:none;
+    min-height:100vh;
+    padding:25px 15px;
+    background:#03060c;
 }
 
-.name{flex:1}
-
-.hostrow{
- padding:14px;
- margin:8px 0;
- background:#ffffff08;
- border-radius:14px;
- line-height:2
+.leaderboard-box{
+    width:min(800px,100%);
+    margin:auto;
+    padding:25px;
+    border-radius:25px;
+    background:linear-gradient(145deg,#111a29,#06090f);
 }
 
-.hostbtn{
- position:fixed;
- left:10px;
- bottom:10px;
- background:none;
- border:0;
- color:#fff;
- opacity:.2
+.leaderboard-box h1{
+    text-align:center;
+    color:#00eaff;
+    margin-bottom:20px;
 }
+
+.lb-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    margin:8px 0;
+    border-radius:14px;
+    background:#ffffff08;
+}
+
+.lb-name{
+    flex:1;
+}
+
+.lb-score{
+    color:#00eaff;
+    font-weight:900;
+}
+
+/* =========================
+   HOST
+   ========================= */
+
+#hostBox{
+    display:none;
+    min-height:100vh;
+    padding:25px 15px;
+    background:#03060c;
+}
+
+.host-container{
+    width:min(900px,100%);
+    margin:auto;
+}
+
+.host-card{
+    padding:25px;
+    border-radius:25px;
+    background:linear-gradient(145deg,#111a29,#06090f);
+    border:1px solid #ffffff12;
+}
+
+.host-card h1{
+    text-align:center;
+    color:#00eaff;
+    margin-bottom:20px;
+}
+
+.host-result{
+    padding:15px;
+    margin:8px 0;
+    border-radius:14px;
+    background:#ffffff08;
+    line-height:2;
+}
+
+.host-button{
+    position:fixed;
+    left:10px;
+    bottom:10px;
+    border:0;
+    background:transparent;
+    color:#ffffff33;
+    cursor:pointer;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
 
 @media(max-width:600px){
- .row{flex-direction:column}
- .cover{background-position:center}
- .start{height:65px}
+
+    .cover-start{
+        width:85vw;
+        height:75px;
+        bottom:3%;
+    }
+
+    .question{
+        font-size:19px;
+    }
+
+    .topbar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .stats{
+        justify-content:center;
+    }
+
+    .login-box{
+        padding:22px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- کەڤەری سەرەتا -->
-<div class="cover" id="landing">
- <button class="start" onclick="openLogin()"></button>
-</div>
+<!-- =========================
+     START COVER
+     ========================= -->
 
-<!-- LOGIN -->
-<div class="modal" id="login">
- <div class="card login">
+<section id="landing">
 
-  <h1 class="center">🚘 چوونەژوورەوە</h1>
+    <img
+        src="68291.png"
+        class="cover-image"
+        alt="هێزی شۆفێر"
+    >
 
-  <p class="center muted">
-   زانیارییەکانت بنووسە بۆ دەستپێکردنی Challenge
-  </p>
-
-  <input id="name" placeholder="👤 ناوت بنووسە">
-
-  <input
-   id="phone"
-   type="tel"
-   placeholder="📱 ژمارەی مۆبایلەکەت"
-  >
-
-  <div class="row">
-   <button class="primary" onclick="login()">
-    دەستپێکردن
-   </button>
-
-   <button class="secondary" onclick="closeLogin()">
-    داخستن
-   </button>
-  </div>
-
- </div>
-</div>
-
-<!-- QUIZ -->
-<section class="section" id="quiz">
-
- <div class="top">
-
-  <b>
-   🚘 <span style="color:#00eaff">
-    هێزی شۆفێر
-   </span>
-  </b>
-
-  <div class="stats">
-
-   <div class="stat">
-    ❤️ <span id="lives">3</span>
-   </div>
-
-   <div class="stat">
-    🔥 <span id="combo">0</span>
-   </div>
-
-   <div class="stat">
-    ⭐ <span id="xp">0</span>
-   </div>
-
-  </div>
-
- </div>
-
- <div class="progress">
-  <div class="bar" id="bar"></div>
- </div>
-
- <div class="timer" id="timer">
-  ⏱️ 40
- </div>
-
- <div class="question">
-
-  <div class="muted" id="qn"></div>
-
-  <h2 id="qt"></h2>
-
-  <button class="option" id="o1" onclick="answer(1)"></button>
-  <button class="option" id="o2" onclick="answer(2)"></button>
-  <button class="option" id="o3" onclick="answer(3)"></button>
-
-  <button
-   class="next"
-   id="next"
-   onclick="next()"
-   disabled
-  >
-   پرسیاری دواتر ←
-  </button>
-
- </div>
-
- <button
-  class="main"
-  style="width:100%;margin-top:12px"
-  onclick="leaderboard()"
- >
-  🏆 Leaderboard
- </button>
+    <!-- ئەم دوگمەیە لەسەر دوگمەی وێنەکەیە -->
+    <button
+        class="cover-start"
+        onclick="openLogin()"
+        aria-label="دەستپێکردنی چالاکی">
+    </button>
 
 </section>
 
-<!-- LEADERBOARD -->
-<section class="section" id="lb">
 
- <div class="sectionbox">
-
-  <h1 class="center">
-   🏆 Leaderboard
-  </h1>
-
-  <div id="lbList"></div>
-
-  <button
-   class="main"
-   style="width:100%"
-   onclick="back()"
-  >
-   ↩️ گەڕانەوە
-  </button>
-
- </div>
-
-</section>
-
-<!-- HOST -->
-<section class="section" id="host">
-
- <div class="sectionbox" id="hostLogin">
-
-  <h1 class="center">
-   👑 Host
-  </h1>
-
-  <input
-   id="he"
-   placeholder="Email"
-  >
-
-  <input
-   id="hp"
-   type="password"
-   placeholder="Password"
-  >
-
-  <button
-   class="primary"
-   style="width:100%;margin-top:10px"
-   onclick="hostLoginFn()"
-  >
-   چوونەژوورەوە
-  </button>
-
- </div>
-
- <div
-  class="sectionbox"
-  id="hostResults"
-  style="display:none"
- >
-
-  <h1 class="center">
-   👑 Host
-  </h1>
-
-  <div id="hl"></div>
-
-  <button
-   class="main"
-   style="width:100%"
-   onclick="hostLogout()"
-  >
-   چوونەدەرەوە
-  </button>
-
- </div>
-
-</section>
-
-<button
- class="hostbtn"
- onclick="showHost()"
->
- 👑
-</button>
-
-<script>
-
-const URL =
-"https://hqfvkkigcjehttciirfe.supabase.co";
-
-const KEY =
-"sb_publishable_e1cjH9G8H8NLaA2t-h0_Pg_azgple4f";
-
-const sb =
-supabase.createClient(URL,KEY);
-
-let qs=[];
-let i=0;
-let sel=0;
-let correct=0;
-let name='';
-let phone='';
-let time=40;
-let timer;
-let combo=0;
-let maxCombo=0;
-let xp=0;
-let startTime;
-let results=[];
-
-const $=x=>document.getElementById(x);
-
-
-/* LOGIN */
-
-function openLogin(){
- $('login').classList.add('show');
-}
-
-function closeLogin(){
- $('login').classList.remove('show');
-}
-
-async function login(){
-
- name=$('name').value.trim();
- phone=$('phone').value.trim();
-
- if(!name || !phone){
-  return alert('تکایە ناو و ژمارەی مۆبایل بنووسە');
- }
-
- closeLogin();
-
- $('landing').style.display='none';
-
- await start();
-}
-
-
-/* START QUIZ */
-
-async function start(){
-
- let r=await sb
-  .from('questions')
-  .select('*');
-
- if(r.error){
-  return alert(r.error.message);
- }
-
- qs=r.data.sort(()=>Math.random()-.5);
-
- i=0;
- correct=0;
- combo=0;
- maxCombo=0;
- xp=0;
- results=[];
-
- $('quiz').style.display='block';
-
- show();
-}
-
-
-/* SHOW QUESTION */
-
-function show(){
-
- let q=qs[i];
-
- sel=0;
-
- startTime=Date.now();
-
- $('qn').innerText=
- `پرسیاری ${i+1} لە ${qs.length}`;
-
- $('qt').innerText=
- q.question || '';
-
- for(let n=1;n<=3;n++){
-
-  $('o'+n).innerText=
-   n+' ـ '+(q['option'+n] || '');
-
- }
-
- for(let n=1;n<=3;n++){
-
-  $('o'+n).classList.remove('sel');
-
- }
-
- $('next').disabled=true;
-
- $('bar').style.width=
-  (i/qs.length*100)+'%';
-
- clearInterval(timer);
-
- time=40;
-
- $('timer').innerText=
-  '⏱️ '+time+' چرکە';
-
- timer=setInterval(()=>{
-
-  time--;
-
-  $('timer').innerText=
-   '⏱️ '+time+' چرکە';
-
-  if(time<=0){
-
-   clearInterval(timer);
-
-   next();
-
-  }
-
- },1000);
-}
-
-
-/* ANSWER */
-
-function answer(n){
-
- sel=n;
-
- for(let x=1;x<=3;x++){
-
-  $('o'+x).classList.remove('sel');
-
- }
-
- $('o'+n).classList.add('sel');
-
- $('next').disabled=false;
-}
-
-
-/* NEXT */
-
-async function next(){
-
- clearInterval(timer);
-
- let q=qs[i];
-
- let ca=Number(q.answer);
-
- let ok=sel===ca;
-
- let t=
-  Math.round((Date.now()-startTime)/1000);
-
- if(ok){
-
-  correct++;
-
-  combo++;
-
-  maxCombo=
-   Math.max(maxCombo,combo);
-
-  xp+=10+
-   Math.min(combo*2,30);
-
- }else{
-
-  combo=0;
-
- }
-
- results.push({
-  q,
-  sel,
-  ca,
-  ok,
-  t
- });
-
- i++;
-
- if(i>=qs.length){
-
-  return finish();
-
- }
-
- show();
-}
-
-
-/* FINISH */
-
-async function finish(){
-
- let total=qs.length;
-
- let acc=
-  Math.round(correct/total*100);
-
- let r=await sb
-  .from('leaderboard')
-  .insert({
-   name,
-   score:correct,
-   total
-  })
-  .select()
-  .single();
-
- if(!r.error){
-
-  await sb
-   .from('private_results')
-   .insert({
-    leaderboard_id:r.data.id,
-    phone
-   });
-
- }
-
- let review=
-  results.map((x,n)=>`
-
-   <div class="hostrow">
-
-    <b>
-     ${n+1}. ${esc(x.q.question)}
-    </b>
-
-    <br>
-
-    ${x.ok?'✅ ڕاست':'❌ هەڵە'}
-
-    <br>
-
-    وەڵامی ڕاست:
-    ${esc(x.q['option'+x.ca])}
-
-   </div>
-
-  `).join('');
-
- $('quiz').innerHTML=`
-
-  <div class="sectionbox center">
-
-   <h1>
-    🏁 کۆتایی Challenge
-   </h1>
-
-   <div class="score">
-    ${acc}%
-   </div>
-
-   <h2>
-    ${
-     acc>=95
-      ? 'LEGEND 👑'
-      : acc>=85
-      ? 'MASTER 🔥'
-      : acc>=70
-      ? 'شۆفێری شارەزا 🏎️'
-      : acc>=50
-      ? 'شۆفێری باش 🚗'
-      : 'نوێکار 🚘'
-    }
-   </h2>
-
-   <p>
-    ⭐ ${xp} XP
-   </p>
-
-   <p>
-    ڕاست: ${correct}
-    |
-    هەڵە: ${total-correct}
-    |
-    Max Combo: x${maxCombo}
-   </p>
-
-   <h2>
-    📋 وردەکاری
-   </h2>
-
-   ${review}
-
-   <button
-    class="primary"
-    style="width:100%"
-    onclick="location.reload()"
-   >
-    🔄 دووبارە یاری کردن
-   </button>
-
-  </div>
- `;
-}
-
-
-/* LEADERBOARD */
-
-async function leaderboard(){
-
- $('quiz').style.display='none';
-
- $('lb').style.display='block';
-
- let r=await sb
-  .from('leaderboard')
-  .select('name,score,total,created_at')
-  .order('score',{ascending:false})
-  .order('created_at',{ascending:true});
-
- $('lbList').innerHTML=
-  r.error
-   ? 'کێشەیەک ڕوویدا'
-   : r.data.map((x,n)=>`
-
-    <div class="rowlb">
-
-     <b>
-      ${
-       n<3
-        ? ['🥇','🥈','🥉'][n]
-        : '#'+(n+1)
-      }
-     </b>
-
-     <div class="name">
-      👤 ${esc(x.name)}
-     </div>
-
-     <b style="color:#00eaff">
-      ${x.score}/${x.total}
-     </b>
+<!-- =========================
+     LOGIN
+     ========================= -->
+
+<div id="loginModal">
+
+    <div class="login-box">
+
+        <h1>🚘 چوونەژوورەوە</h1>
+
+        <p>
+            زانیارییەکانت بنووسە بۆ دەستپێکردنی چالاکی
+        </p>
+
+        <input
+            id="playerName"
+            class="input"
+            type="text"
+            placeholder="👤 ناوت بنووسە"
+        >
+
+        <input
+            id="playerPhone"
+            class="input"
+            type="tel"
+            placeholder="📱 ژمارەی مۆبایل"
+        >
+
+        <button
+            class="btn btn-primary"
+            onclick="login()">
+            🚘 دەستپێکردنی چالاکی
+        </button>
+
+        <button
+            class="btn btn-secondary"
+            onclick="closeLogin()">
+            داخستن
+        </button>
 
     </div>
 
-   `).join('');
+</div>
+
+
+<!-- =========================
+     QUIZ
+     ========================= -->
+
+<section id="quiz">
+
+    <div class="quiz-container">
+
+        <div class="topbar">
+
+            <div class="logo">
+                🚘 هێزی شۆفێر
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    ⭐ <span id="xp">0</span>
+                </div>
+
+                <div class="stat">
+                    🔥 <span id="combo">0</span>
+                </div>
+
+                <div class="stat">
+                    ❤️ <span id="lives">3</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="progress">
+            <div
+                id="progressBar"
+                class="progress-bar">
+            </div>
+        </div>
+
+        <div
+            id="timer"
+            class="timer">
+            ⏱️ 40
+        </div>
+
+        <div class="question-box">
+
+            <div
+                id="questionNumber"
+                class="question-number">
+            </div>
+
+            <div
+                id="questionText"
+                class="question">
+            </div>
+
+            <button
+                id="option1"
+                class="option"
+                onclick="chooseAnswer(1)">
+            </button>
+
+            <button
+                id="option2"
+                class="option"
+                onclick="chooseAnswer(2)">
+            </button>
+
+            <button
+                id="option3"
+                class="option"
+                onclick="chooseAnswer(3)">
+            </button>
+
+            <button
+                id="nextButton"
+                class="next-btn"
+                onclick="nextQuestion()"
+                disabled>
+                پرسیاری دواتر ←
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RESULT
+     ========================= -->
+
+<section id="result">
+
+    <div class="result-box">
+
+        <h1>🏁 کۆتایی چالاکی</h1>
+
+        <div
+            id="finalScore"
+            class="score">
+            0%
+        </div>
+
+        <div id="finalText"></div>
+
+        <button
+            class="btn btn-primary"
+            style="margin-top:20px"
+            onclick="showLeaderboard()">
+            🏆 Leaderboard
+        </button>
+
+        <button
+            class="btn btn-secondary"
+            onclick="location.reload()">
+            🔄 دووبارە یاری کردن
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     LEADERBOARD
+     ========================= -->
+
+<section id="leaderboard">
+
+    <div class="leaderboard-box">
+
+        <h1>🏆 Leaderboard</h1>
+
+        <div id="leaderboardList"></div>
+
+        <button
+            class="btn btn-primary"
+            onclick="backToQuiz()">
+            ↩️ گەڕانەوە
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HOST
+     ========================= -->
+
+<section id="hostBox">
+
+    <div class="host-container">
+
+        <div
+            id="hostLoginBox"
+            class="host-card">
+
+            <h1>👑 Host</h1>
+
+            <input
+                id="hostEmail"
+                class="input"
+                type="email"
+                placeholder="Email">
+
+            <input
+                id="hostPassword"
+                class="input"
+                type="password"
+                placeholder="Password">
+
+            <button
+                class="btn btn-primary"
+                onclick="hostLogin()">
+                چوونەژوورەوە
+            </button>
+
+        </div>
+
+
+        <div
+            id="hostDataBox"
+            class="host-card"
+            style="display:none">
+
+            <h1>👑 ئەنجامەکان</h1>
+
+            <div id="hostResults"></div>
+
+            <button
+                class="btn btn-secondary"
+                onclick="hostLogout()">
+                چوونەدەرەوە
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<button
+    class="host-button"
+    onclick="showHost()">
+    👑
+</button>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+   ========================= */
+
+const SUPABASE_URL =
+"https://hqfvkkigcjehttciirfe.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_e1cjH9G8H8NLaA2t-h0_Pg_azgple4f";
+
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================
+   VARIABLES
+   ========================= */
+
+let questions = [];
+let currentQuestion = 0;
+let selectedAnswer = 0;
+let correctAnswers = 0;
+let xp = 0;
+let combo = 0;
+let maxCombo = 0;
+let lives = 3;
+
+let playerName = "";
+let playerPhone = "";
+
+let timer = null;
+let timeLeft = 40;
+
+
+/* =========================
+   LOGIN
+   ========================= */
+
+function openLogin(){
+
+    document
+        .getElementById("loginModal")
+        .classList.add("show");
+
+}
+
+function closeLogin(){
+
+    document
+        .getElementById("loginModal")
+        .classList.remove("show");
+
 }
 
 
-/* BACK */
+async function login(){
 
-function back(){
+    playerName =
+        document
+        .getElementById("playerName")
+        .value
+        .trim();
 
- $('lb').style.display='none';
+    playerPhone =
+        document
+        .getElementById("playerPhone")
+        .value
+        .trim();
 
- $('quiz').style.display='block';
+    if(!playerName){
+
+        alert("تکایە ناوت بنووسە");
+        return;
+
+    }
+
+    if(!playerPhone){
+
+        alert("تکایە ژمارەی مۆبایل بنووسە");
+        return;
+
+    }
+
+    closeLogin();
+
+    document
+        .getElementById("landing")
+        .style.display="none";
+
+    await startQuiz();
+
 }
 
 
-/* HOST */
+/* =========================
+   START QUIZ
+   ========================= */
+
+async function startQuiz(){
+
+    const {data,error} =
+        await supabaseClient
+        .from("questions")
+        .select("*");
+
+    if(error){
+
+        alert(
+            "کێشە لە هێنانی پرسیارەکان:\n"
+            + error.message
+        );
+
+        document
+            .getElementById("landing")
+            .style.display="block";
+
+        return;
+
+    }
+
+    if(!data || !data.length){
+
+        alert("هیچ پرسیارێک نییە");
+
+        document
+            .getElementById("landing")
+            .style.display="block";
+
+        return;
+
+    }
+
+    questions =
+        data.sort(
+            ()=>Math.random()-0.5
+        );
+
+    currentQuestion=0;
+    correctAnswers=0;
+    xp=0;
+    combo=0;
+    maxCombo=0;
+    lives=3;
+
+    document
+        .getElementById("quiz")
+        .style.display="block";
+
+    showQuestion();
+
+}
+
+
+/* =========================
+   SHOW QUESTION
+   ========================= */
+
+function showQuestion(){
+
+    clearInterval(timer);
+
+    selectedAnswer=0;
+
+    const q =
+        questions[currentQuestion];
+
+    document
+        .getElementById("questionNumber")
+        .innerText =
+        `پرسیاری ${currentQuestion+1} لە ${questions.length}`;
+
+    document
+        .getElementById("questionText")
+        .innerText =
+        q.question || "";
+
+    document
+        .getElementById("option1")
+        .innerText =
+        "1 ـ " + (q.option1 || "");
+
+    document
+        .getElementById("option2")
+        .innerText =
+        "2 ـ " + (q.option2 || "");
+
+    document
+        .getElementById("option3")
+        .innerText =
+        "3 ـ " + (q.option3 || "");
+
+    for(let i=1;i<=3;i++){
+
+        document
+            .getElementById("option"+i)
+            .classList.remove("selected");
+
+    }
+
+    document
+        .getElementById("nextButton")
+        .disabled=true;
+
+    const progress =
+        (currentQuestion /
+        questions.length)*100;
+
+    document
+        .getElementById("progressBar")
+        .style.width =
+        progress+"%";
+
+    startTimer();
+
+}
+
+
+/* =========================
+   TIMER
+   ========================= */
+
+function startTimer(){
+
+    timeLeft=40;
+
+    updateTimer();
+
+    timer =
+        setInterval(()=>{
+
+            timeLeft--;
+
+            updateTimer();
+
+            if(timeLeft<=0){
+
+                clearInterval(timer);
+
+                nextQuestion();
+
+            }
+
+        },1000);
+
+}
+
+
+function updateTimer(){
+
+    document
+        .getElementById("timer")
+        .innerText =
+        "⏱️ "+timeLeft+" چرکە";
+
+}
+
+
+/* =========================
+   ANSWER
+   ========================= */
+
+function chooseAnswer(answer){
+
+    selectedAnswer=answer;
+
+    for(let i=1;i<=3;i++){
+
+        document
+            .getElementById("option"+i)
+            .classList.remove("selected");
+
+    }
+
+    document
+        .getElementById("option"+answer)
+        .classList.add("selected");
+
+    document
+        .getElementById("nextButton")
+        .disabled=false;
+
+}
+
+
+/* =========================
+   NEXT QUESTION
+   ========================= */
+
+function nextQuestion(){
+
+    clearInterval(timer);
+
+    const q =
+        questions[currentQuestion];
+
+    const correct =
+        Number(q.answer);
+
+    if(selectedAnswer===correct){
+
+        correctAnswers++;
+
+        combo++;
+
+        if(combo>maxCombo){
+            maxCombo=combo;
+        }
+
+        xp += 10 + Math.min(combo*2,20);
+
+    }else{
+
+        combo=0;
+        lives--;
+
+    }
+
+    updateStats();
+
+    currentQuestion++;
+
+    if(
+        currentQuestion >=
+        questions.length
+    ){
+
+        finishQuiz();
+        return;
+
+    }
+
+    showQuestion();
+
+}
+
+
+/* =========================
+   STATS
+   ========================= */
+
+function updateStats(){
+
+    document
+        .getElementById("xp")
+        .innerText=xp;
+
+    document
+        .getElementById("combo")
+        .innerText=combo;
+
+    document
+        .getElementById("lives")
+        .innerText=lives;
+
+}
+
+
+/* =========================
+   FINISH
+   ========================= */
+
+async function finishQuiz(){
+
+    clearInterval(timer);
+
+    document
+        .getElementById("quiz")
+        .style.display="none";
+
+    document
+        .getElementById("result")
+        .style.display="block";
+
+    const total =
+        questions.length;
+
+    const percentage =
+        Math.round(
+            correctAnswers /
+            total * 100
+        );
+
+    document
+        .getElementById("finalScore")
+        .innerText =
+        percentage+"%";
+
+    document
+        .getElementById("finalText")
+        .innerHTML = `
+            <p>👤 ${escapeHTML(playerName)}</p>
+            <p style="margin-top:10px">
+                ڕاست: ${correctAnswers}
+                لە ${total}
+            </p>
+            <p style="margin-top:10px">
+                ⭐ XP: ${xp}
+            </p>
+            <p style="margin-top:10px">
+                🔥 Max Combo: ${maxCombo}
+            </p>
+        `;
+
+
+    /* Leaderboard */
+
+    const {data,error} =
+        await supabaseClient
+        .from("leaderboard")
+        .insert({
+            name:playerName,
+            score:correctAnswers,
+            total:total
+        })
+        .select()
+        .single();
+
+
+    /* Private result */
+
+    if(!error && data){
+
+        await supabaseClient
+        .from("private_results")
+        .insert({
+            leaderboard_id:data.id,
+            phone:playerPhone
+        });
+
+    }
+
+}
+
+
+/* =========================
+   LEADERBOARD
+   ========================= */
+
+async function showLeaderboard(){
+
+    document
+        .getElementById("result")
+        .style.display="none";
+
+    document
+        .getElementById("leaderboard")
+        .style.display="block";
+
+    const list =
+        document
+        .getElementById("leaderboardList");
+
+    list.innerHTML="جارێک چاوەڕێ بکە...";
+
+    const {data,error} =
+        await supabaseClient
+        .from("leaderboard")
+        .select("name,score,total,created_at")
+        .order(
+            "score",
+            {ascending:false}
+        );
+
+    if(error){
+
+        list.innerHTML =
+            "کێشەیەک ڕوویدا";
+
+        return;
+
+    }
+
+    if(!data || !data.length){
+
+        list.innerHTML =
+            "هیچ ئەنجامێک نییە";
+
+        return;
+
+    }
+
+    list.innerHTML =
+        data.map((item,index)=>`
+
+            <div class="lb-row">
+
+                <b>
+                    ${
+                        index===0
+                        ? "🥇"
+                        : index===1
+                        ? "🥈"
+                        : index===2
+                        ? "🥉"
+                        : "#"+(index+1)
+                    }
+                </b>
+
+                <div class="lb-name">
+                    ${escapeHTML(item.name)}
+                </div>
+
+                <div class="lb-score">
+                    ${item.score}/${item.total}
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function backToQuiz(){
+
+    document
+        .getElementById("leaderboard")
+        .style.display="none";
+
+    document
+        .getElementById("result")
+        .style.display="block";
+
+}
+
+
+/* =========================
+   HOST
+   ========================= */
 
 function showHost(){
 
- $('landing').style.display='none';
+    document
+        .getElementById("landing")
+        .style.display="none";
 
- $('quiz').style.display='none';
+    document
+        .getElementById("quiz")
+        .style.display="none";
 
- $('lb').style.display='none';
+    document
+        .getElementById("result")
+        .style.display="none";
 
- $('host').style.display='block';
+    document
+        .getElementById("leaderboard")
+        .style.display="none";
+
+    document
+        .getElementById("hostBox")
+        .style.display="block";
+
 }
 
 
-/* HOST LOGIN */
+async function hostLogin(){
 
-async function hostLoginFn(){
+    const email =
+        document
+        .getElementById("hostEmail")
+        .value
+        .trim();
 
- let email=
-  $('he').value.trim();
+    const password =
+        document
+        .getElementById("hostPassword")
+        .value;
 
- let password=
-  $('hp').value;
+    if(!email || !password){
 
- if(!email || !password)
-  return;
+        alert("Email و Password بنووسە");
+        return;
 
- let r=
-  await sb.auth.signInWithPassword({
-   email,
-   password
-  });
+    }
 
- if(r.error)
-  return alert(
-   'چوونەژوورەوە سەرکەوتوو نەبوو'
-  );
+    const {data,error} =
+        await supabaseClient.auth
+        .signInWithPassword({
+            email,
+            password
+        });
 
- let h=
-  await sb
-   .from('hosts')
-   .select('user_id')
-   .eq('user_id',r.data.user.id)
-   .maybeSingle();
+    if(error){
 
- if(!h.data){
+        alert(
+            "چوونەژوورەوە سەرکەوتوو نەبوو"
+        );
 
-  await sb.auth.signOut();
+        return;
 
-  return alert(
-   'ئەم ئەکاونتە Host نییە'
-  );
- }
+    }
 
- $('hostLogin').style.display='none';
+    const host =
+        await supabaseClient
+        .from("hosts")
+        .select("*")
+        .eq("user_id",data.user.id)
+        .maybeSingle();
 
- $('hostResults').style.display='block';
+    if(!host.data){
 
- let d=
-  await sb
-   .from('private_results')
-   .select(
-    'phone,created_at,leaderboard(name,score,total)'
-   )
-   .order('created_at',{ascending:false});
+        await supabaseClient.auth.signOut();
 
- $('hl').innerHTML=
-  d.data?.map((x,n)=>`
+        alert(
+            "ئەم ئەکاونتە Host نییە"
+        );
 
-   <div class="hostrow">
+        return;
 
-    #${n+1}
+    }
 
-    <br>
+    document
+        .getElementById("hostLoginBox")
+        .style.display="none";
 
-    👤 ${esc(x.leaderboard.name)}
+    document
+        .getElementById("hostDataBox")
+        .style.display="block";
 
-    <br>
+    loadHostResults();
 
-    📱 ${esc(x.phone)}
-
-    <br>
-
-    🏆
-    ${x.leaderboard.score}/${x.leaderboard.total}
-
-   </div>
-
-  `).join('')
-  ||
-  'هیچ ئەنجامێک نییە';
 }
 
 
-/* HOST LOGOUT */
+async function loadHostResults(){
+
+    const box =
+        document
+        .getElementById("hostResults");
+
+    box.innerHTML =
+        "جارێک چاوەڕێ بکە...";
+
+    const {data,error} =
+        await supabaseClient
+        .from("private_results")
+        .select(`
+            phone,
+            created_at,
+            leaderboard(
+                name,
+                score,
+                total
+            )
+        `)
+        .order(
+            "created_at",
+            {ascending:false}
+        );
+
+    if(error){
+
+        box.innerHTML =
+            "کێشە لە هێنانی ئەنجامەکان";
+
+        return;
+
+    }
+
+    if(!data || !data.length){
+
+        box.innerHTML =
+            "هیچ ئەنجامێک نییە";
+
+        return;
+
+    }
+
+    box.innerHTML =
+        data.map((item,index)=>`
+
+            <div class="host-result">
+
+                <b>#${index+1}</b>
+
+                <br>
+
+                👤
+                ${escapeHTML(
+                    item.leaderboard?.name || ""
+                )}
+
+                <br>
+
+                📱
+                ${escapeHTML(
+                    item.phone || ""
+                )}
+
+                <br>
+
+                🏆
+                ${
+                    item.leaderboard?.score || 0
+                } /
+                ${
+                    item.leaderboard?.total || 0
+                }
+
+            </div>
+
+        `).join("");
+
+}
+
 
 async function hostLogout(){
 
- await sb.auth.signOut();
+    await supabaseClient.auth.signOut();
 
- location.reload();
+    location.reload();
+
 }
 
 
-/* ESCAPE HTML */
+/* =========================
+   SECURITY
+   ========================= */
 
-function esc(v){
+function escapeHTML(value){
 
- return String(v)
-  .replace(/&/g,'&amp;')
-  .replace(/</g,'&lt;')
-  .replace(/>/g,'&gt;')
-  .replace(/"/g,'&quot;')
-  .replace(/'/g,'&#039;');
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
