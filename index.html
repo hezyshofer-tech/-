@@ -4,408 +4,565 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>هێزی شۆفێر | Driving Challenge</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>هێزی شۆفێر</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&display=swap');
 
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
 html,body{
     width:100%;
-    min-height:100%;
+    height:100%;
 }
 
 body{
     font-family:"Noto Sans Arabic",Arial,sans-serif;
-    background:#02050a;
-    color:#fff;
+    background:#030507;
+    color:white;
+    overflow:hidden;
 }
 
 /* =========================
-   COVER
+   MAIN
 ========================= */
 
-#landing{
-    position:fixed;
-    inset:0;
-    width:100vw;
+.main{
+    position:relative;
+    width:100%;
     height:100vh;
     overflow:hidden;
-    background:#000;
-    z-index:1;
-}
-
-#landing .cover-image{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center;
-    display:block;
-}
-
-/* ئەم دوگمەیە تەنها کلیک لەسەر شوێنی
-   "دەستپێکردنی چالاکی" دەکات */
-.cover-start{
-    position:absolute;
-    z-index:10;
-    left:50%;
-    bottom:3%;
-    transform:translateX(-50%);
-    width:min(430px,82vw);
-    height:90px;
-    border:0;
-    background:transparent;
-    cursor:pointer;
+    background:
+        radial-gradient(circle at 78% 18%,rgba(0,190,255,.16),transparent 25%),
+        radial-gradient(circle at 15% 80%,rgba(0,100,255,.12),transparent 30%),
+        linear-gradient(145deg,#020406,#07111d 48%,#020406);
 }
 
 /* =========================
-   LOGIN
+   SKY
 ========================= */
 
-#loginModal{
-    display:none;
-    position:fixed;
+.sky{
+    position:absolute;
     inset:0;
-    z-index:100;
+    overflow:hidden;
+}
+
+.sun{
+    position:absolute;
+    width:210px;
+    height:210px;
+    border-radius:50%;
+    right:8%;
+    top:10%;
+    background:
+        radial-gradient(circle,
+        rgba(255,255,255,.95) 0%,
+        rgba(0,210,255,.35) 30%,
+        rgba(0,130,255,.08) 60%,
+        transparent 72%);
+    filter:blur(2px);
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:#fff;
+    opacity:.55;
+}
+
+.s1{top:13%;left:8%}
+.s2{top:24%;left:20%}
+.s3{top:9%;left:37%}
+.s4{top:31%;left:55%}
+.s5{top:18%;left:70%}
+.s6{top:12%;left:88%}
+.s7{top:40%;left:11%}
+.s8{top:35%;left:82%}
+.s9{top:48%;left:72%}
+.s10{top:17%;left:47%}
+
+/* =========================
+   MOUNTAINS
+========================= */
+
+.mountains{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:20%;
+    height:43%;
+}
+
+.mountain{
+    position:absolute;
+    bottom:0;
+    width:0;
+    height:0;
+    border-left:180px solid transparent;
+    border-right:180px solid transparent;
+    border-bottom:260px solid #081522;
+}
+
+.m1{left:-80px}
+.m2{left:12%;transform:scale(1.25);border-bottom-color:#0a1928}
+.m3{left:35%;transform:scale(.9);border-bottom-color:#07131f}
+.m4{left:55%;transform:scale(1.3);border-bottom-color:#0a1724}
+.m5{right:-100px;transform:scale(1.1);border-bottom-color:#07131f}
+
+/* =========================
+   ROAD
+========================= */
+
+.road-area{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:42%;
+    overflow:hidden;
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            #03070b 30%,
+            #010203 100%
+        );
+}
+
+.road{
+    position:absolute;
+    left:50%;
+    bottom:-40%;
+    transform:translateX(-50%) perspective(500px) rotateX(58deg);
+    width:95%;
+    height:90%;
+    border-radius:50%;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 22%,
+            rgba(255,255,255,.65) 22.2% 22.7%,
+            transparent 23% 77%,
+            rgba(255,255,255,.65) 77.3% 77.8%,
+            transparent 78%
+        ),
+        linear-gradient(
+            #141b22,
+            #050709
+        );
+    border:18px solid #111820;
+    box-shadow:
+        0 0 80px rgba(0,180,255,.12),
+        inset 0 0 80px #000;
+}
+
+.road-line{
+    position:absolute;
+    left:50%;
+    bottom:-5%;
+    width:8px;
+    height:75%;
+    transform:translateX(-50%);
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #dcefff 0 70px,
+            transparent 70px 125px
+        );
+    opacity:.35;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    z-index:20;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px 5%;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    width:50px;
+    height:50px;
+    display:flex;
     align-items:center;
     justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(10px);
+    border-radius:15px;
+    background:linear-gradient(145deg,#00eaff,#1268ff);
+    box-shadow:0 0 30px rgba(0,220,255,.3);
+    font-size:25px;
 }
 
-#loginModal.show{
-    display:flex;
+.logo-text{
+    font-size:18px;
+    font-weight:900;
 }
 
-.login-box{
-    width:min(440px,95vw);
-    padding:28px;
-    border-radius:25px;
-    background:linear-gradient(145deg,#111c30,#05080e);
-    border:1px solid #00eaff55;
-    box-shadow:0 0 60px #00eaff22;
+.logo-small{
+    color:#657587;
+    font-size:11px;
+    letter-spacing:2px;
 }
 
-.login-box h2{
-    text-align:center;
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.content{
+    position:absolute;
+    z-index:15;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-52%);
+    width:min(1150px,92%);
+    display:grid;
+    grid-template-columns:1fr 470px;
+    align-items:center;
+    gap:80px;
+}
+
+.intro{
+    text-align:right;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 15px;
+    border:1px solid rgba(0,220,255,.25);
+    background:rgba(0,220,255,.06);
+    border-radius:50px;
     color:#00eaff;
-    margin-bottom:8px;
-    font-size:27px;
+    font-size:12px;
+    font-weight:800;
+    margin-bottom:22px;
 }
 
-.login-box .desc{
+.badge-dot{
+    width:7px;
+    height:7px;
+    background:#00eaff;
+    border-radius:50%;
+    box-shadow:0 0 12px #00eaff;
+}
+
+.title{
+    font-size:clamp(55px,7vw,105px);
+    line-height:1;
+    font-weight:900;
+    letter-spacing:-5px;
+    background:linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #dcecff 38%,
+        #25dfff 72%,
+        #1673ff 100%
+    );
+    -webkit-background-clip:text;
+    color:transparent;
+    text-shadow:0 15px 40px rgba(0,150,255,.16);
+}
+
+.title span{
+    display:block;
+    color:#00eaff;
+    font-size:.36em;
+    letter-spacing:5px;
+    margin-top:18px;
+    background:none;
+}
+
+.description{
+    max-width:570px;
+    color:#9baabd;
+    font-size:16px;
+    line-height:2;
+    margin-top:25px;
+}
+
+.features{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:25px;
+}
+
+.feature{
+    padding:8px 13px;
+    border-radius:10px;
+    background:#ffffff07;
+    border:1px solid #ffffff0e;
+    color:#b8c5d4;
+    font-size:12px;
+}
+
+/* =========================
+   LOGIN CARD
+========================= */
+
+.card{
+    position:relative;
+    padding:30px;
+    border-radius:30px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(16,29,46,.96),
+            rgba(3,8,14,.98)
+        );
+    border:1px solid rgba(0,220,255,.3);
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.6),
+        0 0 60px rgba(0,170,255,.10);
+    backdrop-filter:blur(18px);
+}
+
+.card:before{
+    content:"";
+    position:absolute;
+    top:-1px;
+    left:18%;
+    width:64%;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #00eaff,
+        transparent
+    );
+}
+
+.card-top{
     text-align:center;
-    color:#9da8b8;
-    margin-bottom:20px;
+    margin-bottom:25px;
+}
+
+.steering{
+    width:75px;
+    height:75px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    border:2px solid #168fff;
+    background:#061321;
+    box-shadow:
+        inset 0 0 25px rgba(0,150,255,.15),
+        0 0 25px rgba(0,150,255,.18);
+    font-size:35px;
+}
+
+.card h2{
+    margin-top:15px;
+    font-size:25px;
+    font-weight:900;
+}
+
+.card-sub{
+    color:#718093;
+    font-size:12px;
+    margin-top:5px;
 }
 
 .input{
     width:100%;
-    padding:14px;
-    margin-bottom:12px;
+    height:54px;
+    margin-top:12px;
+    padding:0 18px;
     border-radius:14px;
-    border:1px solid #ffffff22;
-    background:#ffffff08;
-    color:#fff;
-    font-size:16px;
+    border:1px solid #ffffff15;
+    background:#ffffff06;
     outline:none;
-}
-
-.input:focus{
-    border-color:#00eaff;
-}
-
-.btn{
-    width:100%;
-    padding:14px;
-    border:0;
-    border-radius:14px;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:800;
-}
-
-.btn-primary{
-    color:#001018;
-    background:linear-gradient(135deg,#00eaff,#287cff);
-}
-
-.btn-secondary{
-    margin-top:10px;
     color:#fff;
-    background:#ffffff0b;
-    border:1px solid #ffffff20;
-}
-
-/* =========================
-   QUIZ
-========================= */
-
-#quiz{
-    display:none;
-    min-height:100vh;
-    padding:25px 15px;
-    background:
-        radial-gradient(circle at top,#10233d,#02050a 55%);
-}
-
-.quiz-container{
-    width:min(900px,100%);
-    margin:auto;
-}
-
-.quiz-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:18px;
-}
-
-.quiz-logo{
-    color:#00eaff;
-    font-size:23px;
-    font-weight:900;
-}
-
-.stats{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.stat{
-    padding:7px 13px;
-    border-radius:12px;
-    background:#ffffff09;
-    border:1px solid #ffffff14;
-}
-
-.progress{
-    width:100%;
-    height:7px;
-    background:#ffffff12;
-    border-radius:20px;
-    overflow:hidden;
-    margin-bottom:20px;
-}
-
-.progress-bar{
-    width:0%;
-    height:100%;
-    background:linear-gradient(90deg,#00eaff,#287cff);
-    transition:.3s;
-}
-
-.timer{
-    text-align:center;
-    color:#00eaff;
-    font-size:20px;
-    font-weight:900;
-    margin-bottom:15px;
-}
-
-.question-box{
-    padding:25px;
-    border-radius:25px;
-    background:linear-gradient(145deg,#111a29,#06090f);
-    border:1px solid #ffffff12;
-}
-
-.question-number{
-    color:#8d99aa;
-    margin-bottom:8px;
-}
-
-.question{
-    font-size:22px;
-    line-height:1.8;
-    margin-bottom:20px;
-}
-
-.option{
-    width:100%;
-    display:block;
-    padding:15px;
-    margin:9px 0;
-    border-radius:15px;
-    border:1px solid #ffffff16;
-    background:#ffffff08;
-    color:#fff;
-    text-align:right;
     font-family:inherit;
-    font-size:16px;
-    cursor:pointer;
+    font-size:14px;
     transition:.2s;
 }
 
-.option:hover{
-    border-color:#00eaff66;
+.input:focus{
+    border-color:#00cfff;
+    background:#00cfff08;
+    box-shadow:0 0 20px rgba(0,210,255,.08);
 }
 
-.option.selected{
-    border-color:#00eaff;
-    background:#00eaff18;
+.input::placeholder{
+    color:#637285;
 }
 
-.option.correct{
-    border-color:#26e66b;
-    background:#26e66b18;
-}
-
-.option.wrong{
-    border-color:#ff4141;
-    background:#ff414118;
-}
-
-.next-btn{
+.start{
+    position:relative;
     width:100%;
-    padding:15px;
-    margin-top:10px;
+    height:58px;
+    margin-top:18px;
     border:0;
-    border-radius:15px;
-    background:linear-gradient(135deg,#00eaff,#287cff);
+    border-radius:16px;
+    cursor:pointer;
+    color:#001018;
+    font-family:inherit;
+    font-size:16px;
+    font-weight:900;
+    background:linear-gradient(
+        100deg,
+        #00d9ff,
+        #1581ff
+    );
+    box-shadow:
+        0 12px 30px rgba(0,130,255,.25);
+}
+
+.start:hover{
+    filter:brightness(1.08);
+}
+
+.start-arrow{
+    position:absolute;
+    left:18px;
+    font-size:23px;
+}
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:20px 0 13px;
+    color:#536174;
+    font-size:11px;
+}
+
+.divider:before,
+.divider:after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:#ffffff12;
+}
+
+.register{
+    width:100%;
+    height:50px;
+    border:1px solid #147dff;
+    background:#071221;
+    color:#91bfff;
+    border-radius:14px;
+    font-family:inherit;
+    font-weight:800;
+    cursor:pointer;
+}
+
+/* =========================
+   BOTTOM STATS
+========================= */
+
+.bottom{
+    position:absolute;
+    z-index:20;
+    left:5%;
+    bottom:25px;
+    display:flex;
+    gap:10px;
+}
+
+.mini{
+    padding:9px 14px;
+    border-radius:11px;
+    background:#ffffff07;
+    border:1px solid #ffffff0d;
+    color:#718095;
+    font-size:10px;
+}
+
+.mini strong{
+    color:#dbe9f8;
+    font-size:12px;
+}
+
+/* =========================
+   LOGIN POPUP
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(14px);
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:min(430px,100%);
+    padding:30px;
+    border-radius:27px;
+    background:#07101a;
+    border:1px solid #00d9ff55;
+    box-shadow:0 0 80px #007cff22;
+}
+
+.modal-title{
+    text-align:center;
+    color:#00eaff;
+    font-size:25px;
+    font-weight:900;
+}
+
+.modal-text{
+    text-align:center;
+    color:#68798d;
+    font-size:12px;
+    margin:7px 0 15px;
+}
+
+.modal-btn{
+    width:100%;
+    height:53px;
+    margin-top:12px;
+    border:0;
+    border-radius:14px;
+    background:linear-gradient(100deg,#00d9ff,#167cff);
     color:#001018;
     font-family:inherit;
     font-weight:900;
     cursor:pointer;
 }
 
-.next-btn:disabled{
-    opacity:.35;
-    cursor:not-allowed;
-}
-
-/* =========================
-   RESULT
-========================= */
-
-#result{
-    display:none;
-    min-height:100vh;
-    padding:25px 15px;
-    background:#03060c;
-}
-
-.result-box{
-    width:min(850px,100%);
-    margin:auto;
-    padding:30px;
-    border-radius:25px;
-    background:linear-gradient(145deg,#111a29,#06090f);
+.close{
+    width:100%;
+    height:45px;
+    margin-top:8px;
     border:1px solid #ffffff12;
-    text-align:center;
-}
-
-.score{
-    font-size:65px;
-    font-weight:900;
-    color:#00eaff;
-    margin:20px 0;
-}
-
-.result-info{
-    line-height:2;
-    color:#d7dce5;
-}
-
-/* =========================
-   LEADERBOARD
-========================= */
-
-#leaderboard{
-    display:none;
-    min-height:100vh;
-    padding:25px 15px;
-    background:#03060c;
-}
-
-.leaderboard-box{
-    width:min(850px,100%);
-    margin:auto;
-    padding:25px;
-    border-radius:25px;
-    background:linear-gradient(145deg,#111a29,#06090f);
-    border:1px solid #ffffff12;
-}
-
-.leaderboard-box h2{
-    text-align:center;
-    color:#00eaff;
-    margin-bottom:20px;
-}
-
-.lb-row{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:14px;
-    margin:8px 0;
-    border-radius:14px;
-    background:#ffffff08;
-}
-
-.lb-name{
-    flex:1;
-}
-
-.lb-score{
-    color:#00eaff;
-    font-weight:900;
-}
-
-/* =========================
-   HOST
-========================= */
-
-#hostBox{
-    display:none;
-    min-height:100vh;
-    padding:25px 15px;
-    background:#03060c;
-}
-
-.host-box{
-    width:min(850px,100%);
-    margin:auto;
-    padding:25px;
-    border-radius:25px;
-    background:linear-gradient(145deg,#111a29,#06090f);
-    border:1px solid #ffffff12;
-}
-
-.host-box h2{
-    text-align:center;
-    color:#00eaff;
-    margin-bottom:20px;
-}
-
-.host-result{
-    padding:15px;
-    margin:8px 0;
-    border-radius:14px;
-    background:#ffffff08;
-    line-height:2;
-}
-
-.host-button{
-    position:fixed;
-    left:10px;
-    bottom:10px;
-    z-index:200;
-    border:0;
-    background:transparent;
-    color:#ffffff25;
+    border-radius:13px;
+    background:#ffffff05;
+    color:#8d9aaa;
+    font-family:inherit;
     cursor:pointer;
 }
 
@@ -413,95 +570,346 @@ body{
    MOBILE
 ========================= */
 
-@media(max-width:600px){
+@media(max-width:850px){
 
-    .cover-start{
-        width:86vw;
-        height:75px;
-        bottom:3%;
+    body{
+        overflow:auto;
     }
 
-    .quiz-top{
+    .main{
+        min-height:100vh;
+        height:auto;
+        overflow:hidden;
+        padding-bottom:40px;
+    }
+
+    .header{
+        padding:20px;
+    }
+
+    .content{
+        position:relative;
+        top:auto;
+        left:auto;
+        transform:none;
+        margin:105px auto 0;
+        display:flex;
         flex-direction:column;
-        align-items:stretch;
+        gap:30px;
+        width:92%;
     }
 
-    .stats{
+    .intro{
+        text-align:center;
+    }
+
+    .title{
+        font-size:58px;
+        letter-spacing:-3px;
+    }
+
+    .description{
+        margin:18px auto 0;
+        font-size:13px;
+    }
+
+    .features{
         justify-content:center;
     }
 
-    .question{
-        font-size:19px;
+    .card{
+        width:100%;
+        max-width:470px;
+        margin:auto;
     }
 
-    .login-box{
-        padding:22px;
+    .bottom{
+        display:none;
     }
+
+    .road{
+        width:180%;
+    }
+
+}
+
+@media(max-width:450px){
+
+    .logo-small{
+        display:none;
+    }
+
+    .logo-text{
+        font-size:15px;
+    }
+
+    .title{
+        font-size:48px;
+    }
+
+    .card{
+        padding:22px;
+        border-radius:23px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     START COVER
-     ===================================================== -->
+<div class="main">
 
-<section id="landing">
+    <!-- SKY -->
 
-    <img
-        class="cover-image"
-        src="./68291.png"
-        alt="هێزی شۆفێر"
-    >
+    <div class="sky">
+        <div class="sun"></div>
 
-    <button
-        class="cover-start"
-        onclick="openLogin()"
-        aria-label="دەستپێکردنی چالاکی">
-    </button>
+        <div class="star s1"></div>
+        <div class="star s2"></div>
+        <div class="star s3"></div>
+        <div class="star s4"></div>
+        <div class="star s5"></div>
+        <div class="star s6"></div>
+        <div class="star s7"></div>
+        <div class="star s8"></div>
+        <div class="star s9"></div>
+        <div class="star s10"></div>
+    </div>
 
-</section>
+    <!-- MOUNTAINS -->
 
+    <div class="mountains">
+        <div class="mountain m1"></div>
+        <div class="mountain m2"></div>
+        <div class="mountain m3"></div>
+        <div class="mountain m4"></div>
+        <div class="mountain m5"></div>
+    </div>
 
-<!-- =====================================================
-     LOGIN
-     ===================================================== -->
+    <!-- ROAD -->
 
-<div id="loginModal">
+    <div class="road-area">
+        <div class="road">
+            <div class="road-line"></div>
+        </div>
+    </div>
 
-    <div class="login-box">
+    <!-- HEADER -->
 
-        <h2>🚘 چوونەژوورەوە</h2>
+    <header class="header">
 
-        <div class="desc">
-            زانیارییەکانت بنووسە بۆ دەستپێکردنی چالاکی
+        <div class="logo">
+
+            <div class="logo-icon">
+                🚘
+            </div>
+
+            <div>
+                <div class="logo-text">
+                    هێزی شۆفێر
+                </div>
+
+                <div class="logo-small">
+                    DRIVING CHALLENGE
+                </div>
+            </div>
+
         </div>
 
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+        <section class="intro">
+
+            <div class="badge">
+                <span class="badge-dot"></span>
+                چالاکییەکی تایبەتی شۆفێری
+            </div>
+
+            <h1 class="title">
+                هێزی
+                شۆفێر
+
+                <span>
+                    DRIVING CHALLENGE
+                </span>
+            </h1>
+
+            <p class="description">
+                خۆت تاقی بکەرەوە و بزانە تا چەند
+                یاساکانی شۆفێری و هۆشیاریی
+                سەر شەقام دەزانیت.
+                هەر وەڵامێکی ڕاست نمرەکەت بەرز دەکاتەوە.
+            </p>
+
+            <div class="features">
+
+                <div class="feature">
+                    🏆 ڕکابەری
+                </div>
+
+                <div class="feature">
+                    🧠 تاقیکردنەوە
+                </div>
+
+                <div class="feature">
+                    ⚡ خێرایی
+                </div>
+
+                <div class="feature">
+                    🥇 Leaderboard
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LOGIN CARD -->
+
+        <section class="card">
+
+            <div class="card-top">
+
+                <div class="steering">
+                    🏎️
+                </div>
+
+                <h2>
+                    ئامادەی؟
+                </h2>
+
+                <div class="card-sub">
+                    ناو و ژمارەکەت بنووسە و دەست پێ بکە
+                </div>
+
+            </div>
+
+
+            <input
+                id="name"
+                class="input"
+                type="text"
+                placeholder="ناوی بەکارهێنەر"
+            >
+
+
+            <input
+                id="phone"
+                class="input"
+                type="tel"
+                placeholder="ژمارەی مۆبایل"
+            >
+
+
+            <button
+                class="start"
+                onclick="startGame()">
+
+                دەستپێکردنی چالاکی
+
+                <span class="start-arrow">
+                    ←
+                </span>
+
+            </button>
+
+
+            <div class="divider">
+                یان
+            </div>
+
+
+            <button
+                class="register"
+                onclick="showInfo()">
+
+                👤 زانیاری زیاتر
+
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- BOTTOM -->
+
+    <div class="bottom">
+
+        <div class="mini">
+            <strong>100%</strong>
+            هۆشیاری
+        </div>
+
+        <div class="mini">
+            <strong>⚡</strong>
+            خێرایی
+        </div>
+
+        <div class="mini">
+            <strong>🏆</strong>
+            ڕکابەری
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- LOGIN MODAL -->
+
+<div
+    id="modal"
+    class="modal">
+
+    <div class="modal-card">
+
+        <div class="modal-title">
+            🚘 چوونەژوورەوە
+        </div>
+
+        <div class="modal-text">
+            زانیارییەکانت پشکنین دەکرێن
+        </div>
+
+
         <input
-            id="name"
+            id="modalName"
             class="input"
             type="text"
-            placeholder="👤 ناوی بەکارهێنەر"
+            placeholder="ناوی بەکارهێنەر"
         >
+
 
         <input
-            id="phone"
+            id="modalPhone"
             class="input"
             type="tel"
-            placeholder="📱 ژمارەی مۆبایل"
+            placeholder="ژمارەی مۆبایل"
         >
 
-        <button
-            class="btn btn-primary"
-            onclick="login()">
-            🚘 چوونەژوورەوە
-        </button>
 
         <button
-            class="btn btn-secondary"
-            onclick="closeLogin()">
+            class="modal-btn"
+            onclick="confirmStart()">
+
+            🚘 دەستپێکردن
+
+        </button>
+
+
+        <button
+            class="close"
+            onclick="closeModal()">
+
             داخستن
+
         </button>
 
     </div>
@@ -509,1121 +917,144 @@ body{
 </div>
 
 
-<!-- =====================================================
-     QUIZ
-     ===================================================== -->
-
-<section id="quiz">
-
-    <div class="quiz-container">
-
-        <div class="quiz-top">
-
-            <div class="quiz-logo">
-                🚘 هێزی شۆفێر
-            </div>
-
-            <div class="stats">
-
-                <div class="stat">
-                    ⭐ <span id="xp">0</span>
-                </div>
-
-                <div class="stat">
-                    🔥 <span id="combo">0</span>
-                </div>
-
-                <div class="stat">
-                    ❤️ <span id="lives">3</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="progress">
-            <div
-                id="progressBar"
-                class="progress-bar">
-            </div>
-        </div>
-
-        <div
-            id="timer"
-            class="timer">
-            ⏱️ 40 چرکە
-        </div>
-
-        <div class="question-box">
-
-            <div
-                id="questionNumber"
-                class="question-number">
-            </div>
-
-            <div
-                id="questionText"
-                class="question">
-            </div>
-
-            <button
-                id="option1"
-                class="option"
-                onclick="chooseAnswer(1)">
-            </button>
-
-            <button
-                id="option2"
-                class="option"
-                onclick="chooseAnswer(2)">
-            </button>
-
-            <button
-                id="option3"
-                class="option"
-                onclick="chooseAnswer(3)">
-            </button>
-
-            <button
-                id="nextButton"
-                class="next-btn"
-                onclick="nextQuestion()"
-                disabled>
-                پرسیاری دواتر ←
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     RESULT
-     ===================================================== -->
-
-<section id="result">
-
-    <div class="result-box">
-
-        <h2>🏁 کۆتایی چالاکی</h2>
-
-        <div
-            id="score"
-            class="score">
-            0%
-        </div>
-
-        <div
-            id="resultText"
-            class="result-info">
-        </div>
-
-        <button
-            class="btn btn-primary"
-            style="margin-top:20px"
-            onclick="showLeaderboard()">
-            🏆 Leaderboard
-        </button>
-
-        <button
-            class="btn btn-secondary"
-            onclick="location.reload()">
-            🔄 دووبارە یاری کردن
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     LEADERBOARD
-     ===================================================== -->
-
-<section id="leaderboard">
-
-    <div class="leaderboard-box">
-
-        <h2>🏆 Leaderboard</h2>
-
-        <div id="leaderboardList"></div>
-
-        <button
-            class="btn btn-primary"
-            style="margin-top:15px"
-            onclick="backToQuiz()">
-            ↩️ گەڕانەوە
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     HOST
-     ===================================================== -->
-
-<section id="hostBox">
-
-    <div
-        id="hostLoginBox"
-        class="host-box">
-
-        <h2>👑 Host</h2>
-
-        <input
-            id="hostEmail"
-            class="input"
-            type="email"
-            placeholder="Email"
-        >
-
-        <input
-            id="hostPassword"
-            class="input"
-            type="password"
-            placeholder="Password"
-        >
-
-        <button
-            class="btn btn-primary"
-            onclick="hostLogin()">
-            چوونەژوورەوە
-        </button>
-
-    </div>
-
-
-    <div
-        id="hostResultsBox"
-        class="host-box"
-        style="display:none">
-
-        <h2>👑 ئەنجامەکان</h2>
-
-        <div id="hostResults"></div>
-
-        <button
-            class="btn btn-secondary"
-            onclick="hostLogout()">
-            چوونەدەرەوە
-        </button>
-
-    </div>
-
-</section>
-
-
-<button
-    class="host-button"
-    onclick="showHost()">
-    👑
-</button>
-
-
 <script>
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+function startGame(){
 
-const SUPABASE_URL =
-"https://hqfvkkigcjehttciirfe.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_e1cjH9G8H8NLaA2t-h0_Pg_azgple4f";
-
-const db =
-supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
-let questions = [];
-
-let currentQuestion = 0;
-
-let selectedAnswer = 0;
-
-let correctAnswers = 0;
-
-let xp = 0;
-
-let combo = 0;
-
-let maxCombo = 0;
-
-let lives = 3;
-
-let playerName = "";
-
-let playerPhone = "";
-
-let timer = null;
-
-let timeLeft = 40;
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-function openLogin(){
-
-    document
-        .getElementById("loginModal")
-        .classList.add("show");
-
-}
-
-
-function closeLogin(){
-
-    document
-        .getElementById("loginModal")
-        .classList.remove("show");
-
-}
-
-
-async function login(){
-
-    playerName =
+    const name =
         document
         .getElementById("name")
         .value
         .trim();
 
-    playerPhone =
+    const phone =
         document
         .getElementById("phone")
         .value
         .trim();
 
 
-    if(!playerName){
+    if(!name){
 
         alert("تکایە ناوت بنووسە");
 
+        document
+            .getElementById("name")
+            .focus();
+
         return;
     }
 
 
-    if(!playerPhone){
+    if(!phone){
 
         alert("تکایە ژمارەی مۆبایل بنووسە");
 
-        return;
-    }
-
-
-    closeLogin();
-
-    document
-        .getElementById("landing")
-        .style.display="none";
-
-    await startQuiz();
-
-}
-
-
-/* =====================================================
-   START QUIZ
-===================================================== */
-
-async function startQuiz(){
-
-    const {data,error} =
-        await db
-        .from("questions")
-        .select("*");
-
-
-    if(error){
-
-        alert(
-            "کێشە لە هێنانی پرسیارەکان:\n"
-            + error.message
-        );
-
         document
-            .getElementById("landing")
-            .style.display="block";
+            .getElementById("phone")
+            .focus();
 
         return;
     }
 
 
-    if(!data || data.length===0){
+    document
+        .getElementById("modalName")
+        .value = name;
 
-        alert("هیچ پرسیارێک نەدۆزرایەوە");
 
+    document
+        .getElementById("modalPhone")
+        .value = phone;
+
+
+    document
+        .getElementById("modal")
+        .classList.add("show");
+
+}
+
+
+function confirmStart(){
+
+    const name =
         document
-            .getElementById("landing")
-            .style.display="block";
-
-        return;
-    }
-
-
-    questions =
-        data.sort(
-            () => Math.random() - 0.5
-        );
-
-
-    currentQuestion = 0;
-    correctAnswers = 0;
-    xp = 0;
-    combo = 0;
-    maxCombo = 0;
-    lives = 3;
-
-
-    document
-        .getElementById("quiz")
-        .style.display="block";
-
-
-    updateStats();
-
-    showQuestion();
-
-}
-
-
-/* =====================================================
-   SHOW QUESTION
-===================================================== */
-
-function showQuestion(){
-
-    clearInterval(timer);
-
-    selectedAnswer = 0;
-
-
-    const q =
-        questions[currentQuestion];
-
-
-    document
-        .getElementById("questionNumber")
-        .innerText =
-        `پرسیاری ${currentQuestion+1} لە ${questions.length}`;
-
-
-    document
-        .getElementById("questionText")
-        .innerText =
-        q.question ||
-        q.question_text ||
-        q.text ||
-        "";
-
-
-    document
-        .getElementById("option1")
-        .innerText =
-        "1 ـ " +
-        (
-            q.option1 ||
-            q.option_a ||
-            q.a ||
-            ""
-        );
-
-
-    document
-        .getElementById("option2")
-        .innerText =
-        "2 ـ " +
-        (
-            q.option2 ||
-            q.option_b ||
-            q.b ||
-            ""
-        );
-
-
-    document
-        .getElementById("option3")
-        .innerText =
-        "3 ـ " +
-        (
-            q.option3 ||
-            q.option_c ||
-            q.c ||
-            ""
-        );
-
-
-    for(let i=1;i<=3;i++){
-
-        const btn =
-            document.getElementById(
-                "option"+i
-            );
-
-        btn.classList.remove("selected");
-        btn.classList.remove("correct");
-        btn.classList.remove("wrong");
-
-    }
-
-
-    document
-        .getElementById("nextButton")
-        .disabled=true;
-
-
-    document
-        .getElementById("progressBar")
-        .style.width =
-        (
-            currentQuestion /
-            questions.length *
-            100
-        ) + "%";
-
-
-    startTimer();
-
-}
-
-
-/* =====================================================
-   TIMER
-===================================================== */
-
-function startTimer(){
-
-    timeLeft = 40;
-
-    updateTimer();
-
-
-    timer =
-        setInterval(() => {
-
-            timeLeft--;
-
-            updateTimer();
-
-
-            if(timeLeft <= 0){
-
-                clearInterval(timer);
-
-                nextQuestion();
-
-            }
-
-        },1000);
-
-}
-
-
-function updateTimer(){
-
-    document
-        .getElementById("timer")
-        .innerText =
-        "⏱️ " +
-        timeLeft +
-        " چرکە";
-
-}
-
-
-/* =====================================================
-   ANSWER
-===================================================== */
-
-function chooseAnswer(number){
-
-    selectedAnswer = number;
-
-
-    for(let i=1;i<=3;i++){
-
+        .getElementById("modalName")
+        .value
+        .trim();
+
+    const phone =
         document
-            .getElementById("option"+i)
-            .classList.remove("selected");
-
-    }
-
-
-    document
-        .getElementById("option"+number)
-        .classList.add("selected");
-
-
-    document
-        .getElementById("nextButton")
-        .disabled=false;
-
-}
-
-
-/* =====================================================
-   NEXT
-===================================================== */
-
-function nextQuestion(){
-
-    clearInterval(timer);
-
-
-    const q =
-        questions[currentQuestion];
-
-
-    let correct =
-        q.answer ??
-        q.correct_answer ??
-        q.correct;
-
-
-    correct =
-        Number(correct);
-
-
-    if(
-        selectedAnswer &&
-        selectedAnswer === correct
-    ){
-
-        correctAnswers++;
-
-        combo++;
-
-        maxCombo =
-            Math.max(
-                maxCombo,
-                combo
-            );
-
-        xp +=
-            10 +
-            Math.min(
-                combo * 2,
-                20
-            );
-
-    }
-    else{
-
-        combo = 0;
-
-        lives--;
-
-    }
-
-
-    updateStats();
-
-
-    currentQuestion++;
-
-
-    if(
-        currentQuestion >=
-        questions.length
-    ){
-
-        finishQuiz();
-
-        return;
-    }
-
-
-    showQuestion();
-
-}
-
-
-/* =====================================================
-   STATS
-===================================================== */
-
-function updateStats(){
-
-    document
-        .getElementById("xp")
-        .innerText=xp;
-
-    document
-        .getElementById("combo")
-        .innerText=combo;
-
-    document
-        .getElementById("lives")
-        .innerText=lives;
-
-}
-
-
-/* =====================================================
-   FINISH
-===================================================== */
-
-async function finishQuiz(){
-
-    clearInterval(timer);
-
-
-    document
-        .getElementById("quiz")
-        .style.display="none";
-
-
-    document
-        .getElementById("result")
-        .style.display="block";
-
-
-    const total =
-        questions.length;
-
-
-    const percentage =
-        Math.round(
-            correctAnswers /
-            total *
-            100
-        );
-
-
-    document
-        .getElementById("score")
-        .innerText =
-        percentage + "%";
-
-
-    document
-        .getElementById("resultText")
-        .innerHTML = `
-
-            <div>👤 ${escapeHTML(playerName)}</div>
-
-            <div>
-                ✅ ڕاست:
-                ${correctAnswers}
-                لە
-                ${total}
-            </div>
-
-            <div>
-                ⭐ XP:
-                ${xp}
-            </div>
-
-            <div>
-                🔥 Max Combo:
-                ${maxCombo}
-            </div>
-
-        `;
-
-
-    try{
-
-        const {data,error} =
-            await db
-            .from("leaderboard")
-            .insert({
-
-                name:playerName,
-
-                score:correctAnswers,
-
-                total:total
-
-            })
-            .select()
-            .single();
-
-
-        if(
-            !error &&
-            data
-        ){
-
-            await db
-                .from("private_results")
-                .insert({
-
-                    leaderboard_id:data.id,
-
-                    phone:playerPhone
-
-                });
-
-        }
-
-    }
-    catch(e){
-
-        console.log(e);
-
-    }
-
-}
-
-
-/* =====================================================
-   LEADERBOARD
-===================================================== */
-
-async function showLeaderboard(){
-
-    document
-        .getElementById("result")
-        .style.display="none";
-
-
-    document
-        .getElementById("leaderboard")
-        .style.display="block";
-
-
-    const list =
-        document
-        .getElementById("leaderboardList");
-
-
-    list.innerHTML =
-        "جارێک چاوەڕێ بکە...";
-
-
-    const {data,error} =
-        await db
-        .from("leaderboard")
-        .select("*")
-        .order(
-            "score",
-            {
-                ascending:false
-            }
-        );
-
-
-    if(error){
-
-        list.innerHTML =
-            "کێشە لە هێنانی Leaderboard";
-
-        return;
-    }
-
-
-    if(!data || !data.length){
-
-        list.innerHTML =
-            "هیچ ئەنجامێک نییە";
-
-        return;
-    }
-
-
-    list.innerHTML =
-        data.map(
-            (item,index) => {
-
-                const medal =
-                    index === 0
-                    ? "🥇"
-                    : index === 1
-                    ? "🥈"
-                    : index === 2
-                    ? "🥉"
-                    : "#" + (index+1);
-
-
-                return `
-
-                    <div class="lb-row">
-
-                        <b>${medal}</b>
-
-                        <div class="lb-name">
-                            ${escapeHTML(item.name)}
-                        </div>
-
-                        <div class="lb-score">
-                            ${item.score}/${item.total}
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-        ).join("");
-
-}
-
-
-function backToQuiz(){
-
-    document
-        .getElementById("leaderboard")
-        .style.display="none";
-
-
-    document
-        .getElementById("result")
-        .style.display="block";
-
-}
-
-
-/* =====================================================
-   HOST
-===================================================== */
-
-function showHost(){
-
-    document
-        .getElementById("landing")
-        .style.display="none";
-
-    document
-        .getElementById("quiz")
-        .style.display="none";
-
-    document
-        .getElementById("result")
-        .style.display="none";
-
-    document
-        .getElementById("leaderboard")
-        .style.display="none";
-
-    document
-        .getElementById("hostBox")
-        .style.display="block";
-
-}
-
-
-async function hostLogin(){
-
-    const email =
-        document
-        .getElementById("hostEmail")
+        .getElementById("modalPhone")
         .value
         .trim();
 
 
-    const password =
-        document
-        .getElementById("hostPassword")
-        .value;
+    if(!name || !phone){
 
-
-    if(!email || !password){
-
-        alert(
-            "Email و Password بنووسە"
-        );
+        alert("تکایە هەموو خانەکان پڕ بکەرەوە");
 
         return;
     }
 
 
-    const {data,error} =
-        await db.auth.signInWithPassword({
+    /*
+       لێرە دەتوانیت کۆدی Quiz ـە کۆنەکەت
+       دابنێیت.
 
-            email:email,
+       ئێستا بۆ تاقیکردنەوە تەنیا
+       نامەی سەرکەوتن پیشان دەدرێت.
+    */
 
-            password:password
-
-        });
-
-
-    if(error){
-
-        alert(
-            "چوونەژوورەوە سەرکەوتوو نەبوو"
-        );
-
-        return;
-    }
+    closeModal();
 
 
-    const {data:host,error:hostError} =
-        await db
-        .from("hosts")
-        .select("*")
-        .eq(
-            "user_id",
-            data.user.id
-        )
-        .maybeSingle();
+    alert(
+        "بەخێربێیت " +
+        name +
+        " 🚘\n\n" +
+        "ئێستا ئامادەی دەستپێکردنی چالاکیت."
+    );
+
+}
 
 
-    if(
-        hostError ||
-        !host
-    ){
-
-        await db.auth.signOut();
-
-        alert(
-            "ئەم ئەکاونتە Host نییە"
-        );
-
-        return;
-    }
-
+function closeModal(){
 
     document
-        .getElementById("hostLoginBox")
-        .style.display="none";
-
-
-    document
-        .getElementById("hostResultsBox")
-        .style.display="block";
-
-
-    loadHostResults();
+        .getElementById("modal")
+        .classList.remove("show");
 
 }
 
 
-async function loadHostResults(){
+function showInfo(){
 
-    const box =
-        document
-        .getElementById("hostResults");
+    alert(
+        "🏆 هێزی شۆفێر\n\n" +
+        "تاقیکردنەوەی هۆشیاری و زانیاریی شۆفێری.\n\n" +
+        "خۆت تاقی بکەرەوە و نمرەی خۆت بەرز بکەرەوە."
+    );
 
-
-    box.innerHTML =
-        "جارێک چاوەڕێ بکە...";
-
-
-    const {data,error} =
-        await db
-        .from("private_results")
-        .select(`
-            phone,
-            created_at,
-            leaderboard(
-                name,
-                score,
-                total
-            )
-        `)
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
+}
 
 
-    if(error){
+document
+    .getElementById("modal")
+    .addEventListener(
+        "click",
+        function(e){
 
-        box.innerHTML =
-            "کێشە لە هێنانی ئەنجامەکان";
+            if(e.target === this){
 
-        return;
-    }
-
-
-    if(!data || !data.length){
-
-        box.innerHTML =
-            "هیچ ئەنجامێک نییە";
-
-        return;
-    }
-
-
-    box.innerHTML =
-        data.map(
-            (item,index) => {
-
-                const lb =
-                    item.leaderboard || {};
-
-
-                return `
-
-                    <div class="host-result">
-
-                        <b>
-                            #${index+1}
-                        </b>
-
-                        <br>
-
-                        👤
-                        ${escapeHTML(
-                            lb.name || ""
-                        )}
-
-                        <br>
-
-                        📱
-                        ${escapeHTML(
-                            item.phone || ""
-                        )}
-
-                        <br>
-
-                        🏆
-                        ${lb.score || 0}
-                        /
-                        ${lb.total || 0}
-
-                    </div>
-
-                `;
+                closeModal();
 
             }
-        ).join("");
 
-}
-
-
-async function hostLogout(){
-
-    await db.auth.signOut();
-
-    location.reload();
-
-}
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(value){
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
+        }
+    );
 
 </script>
 
 </body>
-</html>s
+</html>
