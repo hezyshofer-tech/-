@@ -829,6 +829,53 @@ body{
 }
 
 
+/* =========================================================
+   QUESTION IMAGE
+========================================================= */
+
+.question-image-wrap{
+
+    display:none;
+
+    width:100%;
+
+    margin:0 auto 22px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    padding:8px;
+}
+
+
+.question-image-wrap img{
+
+    display:block;
+
+    width:100%;
+
+    max-height:430px;
+
+    object-fit:contain;
+
+    margin:auto;
+
+    border-radius:14px;
+
+    background:#020617;
+}
+
+
 #questionText{
 
     font-size:
@@ -1459,6 +1506,20 @@ body{
         font-size:21px;
     }
 
+    .question-image-wrap{
+
+        padding:5px;
+
+        margin-bottom:18px;
+    }
+
+    .question-image-wrap img{
+
+        max-height:280px;
+
+        border-radius:12px;
+    }
+
 }
 
 
@@ -1792,6 +1853,23 @@ body{
                 class="question-number"
                 id="smallQuestionNumber"
             ></div>
+
+
+            <!-- =================================================
+                 QUESTION IMAGE
+            ================================================== -->
+
+            <div
+                id="questionImageWrap"
+                class="question-image-wrap"
+            >
+
+                <img
+                    id="questionImage"
+                    alt="وێنەی پرسیار"
+                >
+
+            </div>
 
 
             <h2 id="questionText"></h2>
@@ -2291,6 +2369,10 @@ async function startQuiz(){
                 کۆدەکە پێویستی بە:
                 question / option1 / option2 / option3 / answer
                 هەیە.
+                <br><br>
+                <small>
+                image_url ئیختیارییە و بۆ پرسیارەکانی وێنەدارە.
+                </small>
                 `;
 
             errorBox.style.display =
@@ -2394,6 +2476,17 @@ function normalizeQuestion(q){
             q.correct_answer ??
             q.correct ??
             q.correct_option ??
+            "",
+
+
+        /* ==========================================
+           NEW: QUESTION IMAGE
+        ========================================== */
+
+        image_url:
+            q.image_url ??
+            q.image ??
+            q.imageUrl ??
             ""
 
     };
@@ -2439,11 +2532,71 @@ function showQuestion(){
         number;
 
 
+    /* =====================================================
+       QUESTION IMAGE
+    ===================================================== */
+
+    const imageWrap =
+        document.getElementById(
+            "questionImageWrap"
+        );
+
+    const questionImage =
+        document.getElementById(
+            "questionImage"
+        );
+
+
+    if(
+        q.image_url &&
+        String(q.image_url).trim() !== ""
+    ){
+
+        questionImage.src =
+            String(q.image_url).trim();
+
+
+        imageWrap.style.display =
+            "block";
+
+
+        questionImage.onerror =
+            function(){
+
+                imageWrap.style.display =
+                    "none";
+
+                questionImage.removeAttribute(
+                    "src"
+                );
+
+            };
+
+    }else{
+
+        imageWrap.style.display =
+            "none";
+
+        questionImage.removeAttribute(
+            "src"
+        );
+
+    }
+
+
+    /* =====================================================
+       QUESTION TEXT
+    ===================================================== */
+
     document.getElementById(
         "questionText"
     ).innerText =
         q.question;
 
+
+    /* =====================================================
+       OPTIONS
+    ===================================================== */
 
     document.getElementById(
         "option1"
@@ -2677,6 +2830,9 @@ async function nextQuestion(){
 
         option3:
             q.option3,
+
+        image_url:
+            q.image_url,
 
         isCorrect:
             isCorrect
