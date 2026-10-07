@@ -37,6 +37,45 @@ body{
 
 
 /* =========================================================
+   HJH
+========================================================= */
+
+#hjhCopyright{
+    position:fixed;
+    left:15px;
+    bottom:12px;
+    z-index:9999;
+
+    padding:6px 11px;
+
+    border-radius:8px;
+
+    color:#ffffff;
+
+    background:rgba(0,0,0,.55);
+
+    border:
+        1px solid
+        rgba(0,217,255,.35);
+
+    font-size:13px;
+    font-weight:900;
+
+    letter-spacing:2px;
+
+    text-shadow:
+        0 0 8px
+        rgba(0,217,255,.8);
+
+    box-shadow:
+        0 0 15px
+        rgba(0,217,255,.12);
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
    MAIN COVER
 ========================================================= */
 
@@ -654,7 +693,7 @@ body{
 
     min-height:100vh;
 
-    padding:25px 15px 60px;
+    padding:25px 15px 80px;
 
     background:
         radial-gradient(
@@ -944,28 +983,6 @@ body{
     box-shadow:
         0 0 25px
         rgba(0,217,255,.08);
-}
-
-
-.option.correct{
-
-    border-color:#22e69a;
-
-    background:
-        rgba(34,230,154,.1);
-
-    color:#63ffc1;
-}
-
-
-.option.wrong{
-
-    border-color:#ff526e;
-
-    background:
-        rgba(255,82,110,.1);
-
-    color:#ff8b9d;
 }
 
 
@@ -1303,6 +1320,8 @@ body{
 .player-score{
 
     color:#77a7c9;
+
+    font-weight:800;
 }
 
 
@@ -1516,6 +1535,16 @@ body{
         border-radius:12px;
     }
 
+    #hjhCopyright{
+
+        left:10px;
+        bottom:10px;
+
+        font-size:12px;
+
+        padding:5px 9px;
+    }
+
 }
 
 
@@ -1559,7 +1588,7 @@ body{
     position:fixed;
 
     left:12px;
-    bottom:12px;
+    bottom:62px;
 
     width:40px;
     height:40px;
@@ -1595,6 +1624,19 @@ body{
 
 <body>
 
+
+<!-- =========================================================
+     HJH
+========================================================= -->
+
+<div id="hjhCopyright">
+    HJH
+</div>
+
+
+<!-- =========================================================
+     COVER
+========================================================= -->
 
 <section id="cover">
 
@@ -1635,7 +1677,7 @@ body{
             <p class="hero-description">
 
                 خۆت تاقی بکەرەوە،
-                بزانە چەند شۆفێرێکی شارەزایت.
+                بزانە چەند شۆفەرێکی شارەزایت.
                 پرسیارەکانت وەڵام بدەرەوە،
                 خاڵ کۆبکەرەوە و ناوت بخەرە سەر
                 <strong>Leaderboard</strong>.
@@ -1770,6 +1812,10 @@ body{
 
 
 
+<!-- =========================================================
+     APP
+========================================================= -->
+
 <section id="app">
 
 
@@ -1827,7 +1873,7 @@ body{
                 id="timer"
             >
 
-                ⏱️ 40
+                ⏱️ 40 چرکە
 
             </div>
 
@@ -2374,7 +2420,7 @@ async function startQuiz(){
 
 
         /* =====================================================
-           هەڵبژاردنی تەنها 25 پرسیاری هەڕەمەکی
+           تەنها 25 پرسیاری هەڕەمەکی
         ===================================================== */
 
         questions =
@@ -2390,14 +2436,8 @@ async function startQuiz(){
             );
 
 
-        console.log(
-            "SELECTED QUESTIONS:",
-            questions
-        );
-
-
         /* =====================================================
-           RESET QUIZ
+           RESET
         ===================================================== */
 
         currentQuestion = 0;
@@ -2405,6 +2445,12 @@ async function startQuiz(){
         correctAnswers = 0;
 
         userResults = [];
+
+
+        document.getElementById(
+            "scoreBadge"
+        ).innerText =
+            "🏆 0 خاڵ";
 
 
         document.getElementById(
@@ -2417,6 +2463,24 @@ async function startQuiz(){
             "app"
         ).style.display =
             "block";
+
+
+        document.getElementById(
+            "quiz"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "leaderboard"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "hostBox"
+        ).style.display =
+            "none";
 
 
         showQuestion();
@@ -2625,9 +2689,7 @@ function showQuestion(){
             );
 
         option.classList.remove(
-            "selected",
-            "correct",
-            "wrong"
+            "selected"
         );
 
     }
@@ -2850,8 +2912,6 @@ async function nextQuestion(){
     }
 
 
-    updateScore();
-
     showQuestion();
 
 }
@@ -2859,16 +2919,29 @@ async function nextQuestion(){
 
 /* =========================================================
    SCORE
+   هەر وەڵامی ڕاست = 4 خاڵ
+   کۆی گشتی = 100
 ========================================================= */
 
+function getFinalScore(){
+
+    return correctAnswers * 4;
+
+}
+
+
 function updateScore(){
+
+    /*
+       لە کاتی تاقیکردنەوەدا
+       نمرەی ڕاستەقینە پیشان نادرێت.
+       تەنها دوای تەواوبوون پیشان دەدرێت.
+    */
 
     document.getElementById(
         "scoreBadge"
     ).innerText =
-        "🏆 " +
-        correctAnswers +
-        " خاڵ";
+        "🏆 تاقیکردنەوە بەردەوامە";
 
 }
 
@@ -2884,16 +2957,23 @@ async function finishQuiz(){
     );
 
 
-    const total =
+    const totalQuestions =
         questions.length;
 
 
     const wrong =
-        total -
+        totalQuestions -
         correctAnswers;
 
 
-    updateScore();
+    const score =
+        getFinalScore();
+
+
+    document.getElementById(
+        "progress"
+    ).style.width =
+        "100%";
 
 
     let saved =
@@ -2914,10 +2994,10 @@ async function finishQuiz(){
                     userName,
 
                 score:
-                    correctAnswers,
+                    score,
 
                 total:
-                    total
+                    100
 
             })
             .select()
@@ -2930,6 +3010,13 @@ async function finishQuiz(){
         ){
 
             saved = true;
+
+        }else{
+
+            console.log(
+                "SAVE ERROR:",
+                error
+            );
 
         }
 
@@ -2966,6 +3053,7 @@ async function finishQuiz(){
 
             }
 
+
             if(
                 r.selectedAnswer === 2
             ){
@@ -2974,6 +3062,7 @@ async function finishQuiz(){
                     r.option2;
 
             }
+
 
             if(
                 r.selectedAnswer === 3
@@ -2994,6 +3083,7 @@ async function finishQuiz(){
 
             }
 
+
             if(
                 r.correctAnswer === 2
             ){
@@ -3002,6 +3092,7 @@ async function finishQuiz(){
                     r.option2;
 
             }
+
 
             if(
                 r.correctAnswer === 3
@@ -3100,9 +3191,9 @@ async function finishQuiz(){
             <div class="result-icon">
 
                 ${
-                    correctAnswers >= total * .8
+                    score >= 80
                     ? "🏆"
-                    : correctAnswers >= total * .5
+                    : score >= 50
                     ? "🚘"
                     : "💪"
                 }
@@ -3127,7 +3218,7 @@ async function finishQuiz(){
 
             <div class="result-score">
 
-                ${correctAnswers}/${total}
+                ${score}/100
 
             </div>
 
@@ -3141,7 +3232,7 @@ async function finishQuiz(){
                     </strong>
 
                     <span>
-                        ڕاست
+                        وەڵامی ڕاست
                     </span>
 
                 </div>
@@ -3154,7 +3245,7 @@ async function finishQuiz(){
                     </strong>
 
                     <span>
-                        هەڵە
+                        وەڵامی هەڵە
                     </span>
 
                 </div>
@@ -3163,7 +3254,7 @@ async function finishQuiz(){
                 <div>
 
                     <strong>
-                        ${total}
+                        ${totalQuestions}
                     </strong>
 
                     <span>
@@ -3183,7 +3274,7 @@ async function finishQuiz(){
                 `
                 <div class="connection ok">
 
-                    🟢 ئەنجامەکەت تۆمار کرا
+                    🟢 نمرەکەت تۆمار کرا: ${score}/100
 
                 </div>
                 `
@@ -3194,7 +3285,7 @@ async function finishQuiz(){
                 <div class="connection error">
 
                     ⚠️ تاقیکردنەوەکە تەواو بوو،
-                    بەڵام ئەنجامەکە تۆمار نەکرا.
+                    بەڵام نمرەکە تۆمار نەکرا.
 
                 </div>
                 `
@@ -3243,6 +3334,10 @@ async function finishQuiz(){
 
 /* =========================================================
    LEADERBOARD
+   1. نمرەی بەرزتر = پلەی بەرزتر
+   2. ئەگەر نمرە یەکسان بوو:
+      ئەوەی زووتر تەواوی کردووە = پلەی یەکەم
+   3. created_at لە کاتی تۆمارکردنی ئەنجامەکە دێت
 ========================================================= */
 
 async function showLeaderboard(){
@@ -3347,6 +3442,10 @@ async function showLeaderboard(){
         data.forEach(
             function(item,index){
 
+                const score =
+                    Number(item.score) || 0;
+
+
                 html += `
 
                     <div class="leaderboard-row">
@@ -3371,7 +3470,7 @@ async function showLeaderboard(){
                         <div class="player-score">
 
                             🏆
-                            ${item.score}/${item.total}
+                            ${score}/100
 
                         </div>
 
@@ -3389,8 +3488,16 @@ async function showLeaderboard(){
 
     }catch(error){
 
+        console.log(error);
+
         list.innerHTML =
-            "کێشەیەک ڕوویدا.";
+            `
+            <div class="connection error">
+
+                کێشەیەک ڕوویدا.
+
+            </div>
+            `;
 
     }
 
@@ -3682,6 +3789,10 @@ async function loadHostResults(){
     data.forEach(
         function(item,index){
 
+            const score =
+                Number(item.score) || 0;
+
+
             html += `
 
                 <div class="host-row">
@@ -3702,12 +3813,13 @@ async function loadHostResults(){
                     <br>
 
                     🏆 نمرە:
-                    ${item.score}/${item.total}
+                    ${score}/100
 
                     <br>
 
                     🕒
-                    ${item.created_at
+                    ${
+                        item.created_at
                         ? new Date(
                             item.created_at
                         ).toLocaleString(
