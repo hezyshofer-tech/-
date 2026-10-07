@@ -12,10 +12,6 @@
 
 <style>
 
-/* =========================================================
-   RESET
-========================================================= */
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -1600,10 +1596,6 @@ body{
 <body>
 
 
-<!-- =====================================================
-     COVER
-===================================================== -->
-
 <section id="cover">
 
     <div class="brand">
@@ -1778,10 +1770,6 @@ body{
 
 
 
-<!-- =====================================================
-     APP
-===================================================== -->
-
 <section id="app">
 
 
@@ -1854,10 +1842,6 @@ body{
                 id="smallQuestionNumber"
             ></div>
 
-
-            <!-- =================================================
-                 QUESTION IMAGE
-            ================================================== -->
 
             <div
                 id="questionImageWrap"
@@ -2058,6 +2042,7 @@ body{
 
 
 <script>
+
 
 /* =========================================================
    SUPABASE
@@ -2269,6 +2254,7 @@ async function login(){
 
 /* =========================================================
    START QUIZ
+   هەر جار تەنها 25 پرسیاری هەڕەمەکی
 ========================================================= */
 
 async function startQuiz(){
@@ -2341,7 +2327,11 @@ async function startQuiz(){
         }
 
 
-        questions =
+        /* =====================================================
+           NORMALIZE + FILTER
+        ===================================================== */
+
+        const allQuestions =
             data
             .map(normalizeQuestion)
             .filter(function(q){
@@ -2358,7 +2348,7 @@ async function startQuiz(){
 
 
         if(
-            questions.length === 0
+            allQuestions.length === 0
         ){
 
             errorBox.innerHTML =
@@ -2383,12 +2373,32 @@ async function startQuiz(){
         }
 
 
-        questions.sort(
-            () =>
-                Math.random() -
-                0.5
+        /* =====================================================
+           هەڵبژاردنی تەنها 25 پرسیاری هەڕەمەکی
+        ===================================================== */
+
+        questions =
+            allQuestions
+            .sort(
+                () =>
+                    Math.random() -
+                    0.5
+            )
+            .slice(
+                0,
+                25
+            );
+
+
+        console.log(
+            "SELECTED QUESTIONS:",
+            questions
         );
 
+
+        /* =====================================================
+           RESET QUIZ
+        ===================================================== */
 
         currentQuestion = 0;
 
@@ -2479,10 +2489,6 @@ function normalizeQuestion(q){
             "",
 
 
-        /* ==========================================
-           NEW: QUESTION IMAGE
-        ========================================== */
-
         image_url:
             q.image_url ??
             q.image ??
@@ -2532,10 +2538,6 @@ function showQuestion(){
         number;
 
 
-    /* =====================================================
-       QUESTION IMAGE
-    ===================================================== */
-
     const imageWrap =
         document.getElementById(
             "questionImageWrap"
@@ -2584,19 +2586,11 @@ function showQuestion(){
     }
 
 
-    /* =====================================================
-       QUESTION TEXT
-    ===================================================== */
-
     document.getElementById(
         "questionText"
     ).innerText =
         q.question;
 
-
-    /* =====================================================
-       OPTIONS
-    ===================================================== */
 
     document.getElementById(
         "option1"
@@ -2786,7 +2780,8 @@ async function nextQuestion(){
         selectedAnswer === null
     ){
 
-        selectedAnswer = 0;
+        selectedAnswer =
+            0;
 
     }
 
